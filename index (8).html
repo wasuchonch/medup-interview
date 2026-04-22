@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MED UP Interview — คณะแพทยศาสตร์ ม.พะเยา</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ════ RESET ════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bl:#0369a1;--bld:#0c4a6e;--bll:#e0f2fe;
+  --gn:#16a34a;--am:#d97706;--rd:#dc2626;
+  --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;
+  --g400:#94a3b8;--g600:#475569;--g800:#1e293b;
+  --sh:0 1px 6px rgba(0,0,0,.07);
+}
+body{font-family:'Sarabun',sans-serif;background:#f0f9ff;color:var(--g800);display:flex;flex-direction:column;min-height:100vh;font-size:14px}
+input,select,button,textarea{font-family:inherit}
+button{cursor:pointer}
+
+/* ════ TOPBAR ════ */
+#topbar{background:linear-gradient(135deg,var(--bld),var(--bl) 55%,#0ea5e9);box-shadow:0 2px 14px rgba(0,0,0,.18);position:sticky;top:0;z-index:200;flex-shrink:0}
+#tb{max-width:1300px;margin:0 auto;display:flex;align-items:center;height:56px;padding:0 14px;gap:8px}
+.logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.logo-ic{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo-t{color:#fff;font-weight:800;font-size:13px;line-height:1.2}
+.logo-s{color:#7dd3fc;font-size:9px}
+.nav-tabs{display:flex;gap:2px;margin-left:auto}
+.nbtn{background:transparent;color:#bae6fd;border:none;border-radius:7px;padding:6px 12px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.nbtn.on{background:#fff;color:var(--bl)}
+.iv-lbl{color:#bae6fd;font-size:11px;white-space:nowrap;flex-shrink:0}
+.iv-sel{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:7px;padding:4px 9px;font-size:11px;font-weight:600;outline:none;max-width:200px}
+.iv-sel option{background:#0c4a6e;color:#fff}
+
+/* ════ SESSION BAR ════ */
+#ses-bar{background:#fff;border-bottom:1.5px solid var(--g200);padding:6px 14px;flex-shrink:0}
+#ses-in{max-width:1300px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sf{display:flex;align-items:center;gap:5px}
+.sf label{font-size:11px;color:var(--g600);white-space:nowrap;font-weight:600}
+.si{border:1.5px solid var(--g200);border-radius:7px;padding:4px 9px;font-size:11px;outline:none;background:#fff}
+.si:focus{border-color:var(--bl)}
+.pos-tag{display:inline-flex;align-items:center;gap:3px;background:var(--bll);color:var(--bl);border-radius:20px;padding:2px 9px;font-size:11px;font-weight:600}
+.pos-tag button{background:none;border:none;color:var(--bl);font-size:12px;line-height:1;padding:0 0 0 2px;cursor:pointer}
+
+/* ════ SHEET BANNER ════ */
+#sh-ban,#sh-ok{padding:6px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;font-size:11px}
+#sh-ban{background:#fefce8;border-bottom:1px solid #fde68a}
+#sh-ok{background:#f0fdf4;border-bottom:1px solid #86efac;display:none}
+.bi{flex:1;min-width:200px;border:1px solid #fcd34d;border-radius:6px;padding:4px 9px;font-size:11px;outline:none}
+.bc{background:#f59e0b;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-weight:700;font-size:11px;cursor:pointer}
+.bg{background:none;border:1px solid #fcd34d;border-radius:6px;padding:4px 9px;font-weight:600;color:#b45309;font-size:11px;cursor:pointer}
+.bt{background:none;border:none;font-size:11px;font-weight:700;cursor:pointer}
+/* sync all button */
+.btn-sync-all{background:#0369a1;color:#fff;border:none;border-radius:7px;padding:5px 14px;font-weight:700;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.btn-sync-all:active{opacity:.8}
+
+/* ════ LAYOUT ════ */
+#layout{display:flex;flex:1;max-width:1300px;width:100%;margin:0 auto;min-height:0;overflow:hidden}
+
+/* ════ SIDEBAR ════ */
+#sb{width:254px;flex-shrink:0;background:#fff;border-right:1.5px solid var(--g200);display:flex;flex-direction:column;overflow:hidden}
+#sb-hd{padding:10px 12px;border-bottom:1px solid var(--g200);flex-shrink:0}
+#sb-srch{width:100%;border:1.5px solid var(--g200);border-radius:8px;padding:6px 10px;font-size:12px;outline:none;margin-bottom:7px}
+#sb-srch:focus{border-color:var(--bl)}
+.sb-acts{display:flex;gap:4px;flex-wrap:wrap}
+.bsm{padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700;border:none;cursor:pointer;white-space:nowrap}
+.bsm-b{background:var(--bl);color:#fff}
+.bsm-o{background:#fff;color:var(--bl);border:1.5px solid var(--bl)}
+#cand-list{flex:1;overflow-y:auto;padding:6px}
+.ci{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:9px;cursor:pointer;margin-bottom:3px;border:1.5px solid transparent;transition:all .12s}
+.ci:hover{background:var(--g50)}
+.ci.sel{background:var(--bll);border-color:var(--bl)}
+.ci.done{border-left:3px solid var(--gn)}
+.ci.todo{border-left:3px solid var(--g200)}
+.cn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.cn.done{background:#dcfce7;color:var(--gn)}
+.cn.todo{background:var(--g100);color:var(--g600)}
+.ci-inf{flex:1;min-width:0}
+.ci-nm{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-ps{font-size:10px;color:var(--g400)}
+#sb-ft{padding:7px 12px;border-top:1px solid var(--g200);flex-shrink:0;display:flex;justify-content:space-between;font-size:11px;color:var(--g600)}
+
+/* ════ CONTENT ════ */
+#ca{flex:1;overflow-y:auto;padding:16px 14px;min-width:0}
+.page{display:none}.page.on{display:block}
+
+/* ════ CARDS ════ */
+.card{background:#fff;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--sh)}
+.ct{font-size:13px;font-weight:700;color:var(--bl);margin-bottom:12px}
+
+/* ════ FORM ════ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.full{grid-column:1/-1}
+.lbl{display:block;font-size:11px;font-weight:600;color:var(--g600);margin-bottom:4px}
+.inp{width:100%;border:1.5px solid var(--g200);border-radius:9px;padding:8px 11px;font-size:13px;outline:none;transition:border .15s;background:#fff}
+.inp:focus{border-color:var(--bl)}
+.inp[readonly]{background:var(--g50);color:var(--g600)}
+
+/* ════ SCORE CARDS ════ */
+.scard{background:#fff;border-radius:12px;padding:12px 16px;margin-bottom:9px;box-shadow:var(--sh);border-left:4px solid var(--g200);transition:border-color .15s}
+.sh{display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap}
+.sbtns{display:flex;align-items:center;gap:6px;margin-bottom:7px}
+.sbtn{width:44px;height:44px;border-radius:10px;border:2px solid var(--g200);background:var(--g50);color:var(--g600);font-weight:800;font-size:16px;cursor:pointer;transition:all .12s;-webkit-tap-highlight-color:transparent;user-select:none}
+.sbtn:active{transform:scale(.92)}
+.sbtn.on{color:#fff}
+.slv{font-size:11px;font-weight:600;margin-left:3px}
+.srm{width:100%;border:1.5px solid var(--g200);border-radius:8px;padding:7px 10px;font-size:12px;outline:none;resize:none;overflow:hidden;transition:border .15s}
+.srm:focus{border-color:var(--bl)}
+
+/* ════ SUM STRIP ════ */
+.sum-strip{border-radius:14px;padding:16px 18px;margin-top:11px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border:2px solid var(--g200)}
+.s-big{font-size:40px;font-weight:800;line-height:1}
+.s-pct{font-size:15px;font-weight:700;margin-top:5px}
+.s-acts{display:flex;flex-direction:column;gap:9px}
+#btn-save{background:var(--bl);color:#fff;border:none;border-radius:11px;padding:14px 28px;font-weight:800;font-size:16px;box-shadow:0 4px 14px rgba(3,105,161,.35);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;min-width:180px}
+#btn-save:active{transform:scale(.96)}
+#btn-save.saved{background:#059669}
+#btn-save:disabled{background:var(--g400);box-shadow:none;cursor:not-allowed}
+.btn-pdf{background:#fff;color:var(--bl);border:2px solid var(--bl);border-radius:11px;padding:10px 22px;font-weight:700;font-size:13px;cursor:pointer}
+
+/* ════ SUMMARY ════ */
+.frow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.fbtn{padding:5px 11px;border-radius:18px;border:1.5px solid var(--g200);background:#fff;color:var(--g600);font-weight:600;font-size:11px;cursor:pointer;transition:all .15s}
+.fbtn.on{border-color:var(--bl);background:var(--bl);color:#fff}
+.src{border:1.5px solid var(--g200);border-radius:8px;padding:6px 10px;font-size:12px;outline:none;width:200px}
+.src:focus{border-color:var(--bl)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:8px 8px;text-align:left;font-size:11px;font-weight:700;color:var(--g600);background:var(--g100);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{background:var(--g200)}
+td{padding:7px 8px;border-bottom:1px solid var(--g100);vertical-align:middle}
+tr:hover td{background:var(--g50)}
+.badge{display:inline-block;padding:2px 8px;border-radius:18px;font-weight:600;font-size:10px;white-space:nowrap}
+
+/* ════ ACCEPT ════ */
+.acc-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:10px;background:var(--g50);border:1.5px solid var(--g200);margin-bottom:6px}
+.acc-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;cursor:pointer;transition:all .15s}
+.acc-num:hover{opacity:.8}
+.a-main{background:#dcfce7;color:var(--gn)}
+.a-res{background:#fef9c3;color:#92400e}
+.a-none{background:var(--g100);color:var(--g400)}
+
+/* ════ MGR ════ */
+.mgr-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:10px;background:var(--g50);border:1.5px solid var(--g200);margin-bottom:6px}
+.mgr-av{width:36px;height:36px;border-radius:50%;background:var(--bll);color:var(--bl);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.mgr-inf{flex:1}.mgr-nm{font-weight:600;font-size:13px}.mgr-ti{font-size:11px;color:var(--g400)}
+.mgr-del{background:none;border:none;color:var(--g400);font-size:18px;cursor:pointer}
+.mgr-del:hover{color:var(--rd)}
+
+/* ════ MODAL ════ */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:4000;display:none;align-items:center;justify-content:center;padding:16px}
+.mbg.open{display:flex}
+.mbox{background:#fff;border-radius:18px;max-width:700px;width:100%;max-height:92vh;overflow-y:auto;padding:24px}
+.mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mt{font-size:15px;font-weight:700;color:var(--bl)}
+.mc{background:none;border:none;font-size:26px;color:var(--g400);cursor:pointer;line-height:1}
+.guide-box{background:var(--bll);border-radius:10px;padding:12px 15px;margin-bottom:12px;font-size:12px;line-height:2.3}
+.guide-warn{background:#fef2f2;border-radius:9px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:var(--rd)}
+pre.cb{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:13px;font-size:9.5px;overflow-x:auto;line-height:1.7;white-space:pre-wrap;word-break:break-all;max-height:280px}
+.popt{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;background:var(--g50);border:1.5px solid var(--g200);margin-bottom:7px;cursor:pointer;transition:all .15s}
+.popt:hover{border-color:var(--bl);background:var(--bll)}
+.poi{font-size:22px}.pot{font-size:13px;font-weight:700}.pos2{font-size:11px;color:var(--g400)}
+
+/* ════ CONFIRM ════ */
+.cfm-msg{font-size:14px;margin-bottom:18px;line-height:1.7;padding:8px 0 0}
+.cfm-btns{display:flex;gap:10px;justify-content:center}
+.btn-ok{background:var(--bl);color:#fff;border:none;border-radius:9px;padding:9px 24px;font-weight:700;font-size:13px;cursor:pointer}
+.btn-cl{background:var(--g100);color:var(--g800);border:none;border-radius:9px;padding:9px 24px;font-weight:700;font-size:13px;cursor:pointer}
+
+/* ════ TOAST ════ */
+#toast{position:fixed;bottom:22px;right:22px;background:var(--bld);color:#fff;border-radius:10px;padding:10px 18px;font-weight:700;font-size:13px;box-shadow:0 4px 18px rgba(0,0,0,.22);transform:translateY(80px);opacity:0;transition:all .28s;z-index:9999;pointer-events:none;max-width:340px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{background:#059669}
+#toast.warn{background:var(--am)}
+
+/* ════ ADMIN LOCK ════ */
+#admin-lock{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:5000;align-items:center;justify-content:center}
+#admin-lock.open{display:flex}
+#admin-box{background:#fff;border-radius:18px;padding:28px 32px;text-align:center;max-width:340px;width:100%}
+#admin-box h2{font-size:16px;font-weight:800;color:var(--bl);margin-bottom:8px}
+#admin-pin{width:100%;border:2px solid var(--g200);border-radius:10px;padding:10px 14px;font-size:20px;text-align:center;outline:none;letter-spacing:8px;margin-bottom:12px}
+#admin-pin:focus{border-color:var(--bl)}
+
+/* ════ UTILITY ════ */
+.fr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ml{margin-left:auto}
+.empty{text-align:center;padding:36px 16px;color:var(--g400);font-size:13px}
+.adm-badge{background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:10px}
+
+/* ════════════════════════════════════════
+   PRINT STYLES — ใช้ font จริงจากเบราว์เซอร์
+   ════════════════════════════════════════ */
+@media print {
+  /* ซ่อนทุกอย่างยกเว้น print-doc */
+  body > *:not(#print-doc) { display: none !important; }
+  #print-doc { display: block !important; }
+  @page { size: A4; margin: 12mm 14mm; }
+
+  #print-doc {
+    font-family: 'Sarabun', sans-serif !important;
+    font-size: 10pt;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+  #print-doc .ph { page-break-after: always; }
+  #print-doc .ph:last-child { page-break-after: avoid; }
+
+  #print-doc .p-hdr {
+    background: #0369a1 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #fff !important;
+    padding: 5mm 0 4mm;
+    margin-bottom: 4mm;
+  }
+  #print-doc .p-hdr-t { font-size: 13pt; font-weight: 800; }
+  #print-doc .p-hdr-s { font-size: 9pt; color: #bae6fd !important; margin-top: 1mm; }
+
+  #print-doc table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  #print-doc th {
+    background: #0c4a6e !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #fff !important;
+    padding: 2mm 2mm;
+    font-size: 8.5pt;
+    text-align: left;
+  }
+  #print-doc td { padding: 1.8mm 2mm; border-bottom: 0.3mm solid #e2e8f0; font-size: 9pt; vertical-align: top; }
+  #print-doc tr:nth-child(even) td { background: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  #print-doc .sig-block { margin-top: 8mm; }
+  #print-doc .sig-row { display: flex; gap: 0; margin-bottom: 6mm; }
+  #print-doc .sig-item { flex: 1; text-align: center; }
+  #print-doc .sig-line { border-bottom: 0.3mm solid #94a3b8; margin: 0 4mm 1mm; height: 10mm; }
+  #print-doc .sig-name { font-size: 8pt; color: #475569; }
+  #print-doc .sig-title { font-size: 8pt; color: #94a3b8; }
+
+  #print-doc .info-box {
+    border: 0.3mm solid #e2e8f0;
+    border-radius: 2mm;
+    padding: 3mm;
+    margin-bottom: 4mm;
+    background: #f8fafc !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  #print-doc .cand-name-big { font-size: 14pt; font-weight: 800; margin-bottom: 1mm; }
+  #print-doc .cand-info-row { font-size: 9pt; color: #475569; }
+
+  #print-doc .score-dot-on { color: inherit; font-size: 13pt; }
+  #print-doc .score-dot-off { color: #cbd5e1; font-size: 13pt; }
+
+  #print-doc .total-row td { background: #e0f2fe !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-weight: 800; }
+  #print-doc .result-badge { font-weight: 800; font-size: 11pt; }
+
+  #print-doc .section-title { font-size: 11pt; font-weight: 800; margin-bottom: 3mm; margin-top: 2mm; }
+  #print-doc .accept-main-row { background: #f0fdf4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #print-doc .accept-res-row  { background: #fffbeb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  #print-doc .legend { font-size: 8pt; color: #94a3b8; border-top: 0.3mm solid #e2e8f0; padding-top: 2mm; margin-top: 3mm; }
+  #print-doc .pg-footer { position: fixed; bottom: 6mm; right: 14mm; font-size: 8pt; color: #94a3b8; }
+}
+#print-doc { display: none; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+<div id="tb">
+  <div class="logo">
+    <div class="logo-ic">🏥</div>
+    <div><div class="logo-t">MED UP Interview</div><div class="logo-s">คณะแพทยศาสตร์ ม.พะเยา</div></div>
+  </div>
+  <span class="iv-lbl">ผู้สัมภาษณ์:</span>
+  <select id="iv-sel" class="iv-sel" onchange="onIVC()"></select>
+  <div class="nav-tabs">
+    <button class="nbtn on" id="nav-score"   onclick="sw('score')">📝 ให้คะแนน</button>
+    <button class="nbtn"    id="nav-summary" onclick="sw('summary')">📊 สรุปผล</button>
+    <button class="nbtn"    id="nav-attend"  onclick="sw('attend')">📋 เช็คชื่อ</button>
+    <button class="nbtn"    id="nav-accept"  onclick="reqAdmin('accept')">🏆 รับเข้าทำงาน</button>
+    <button class="nbtn"    id="nav-mgr"     onclick="sw('mgr')">👤 ผู้ประเมิน</button>
+  </div>
+</div>
+</div>
+
+<!-- SESSION BAR -->
+<div id="ses-bar">
+<div id="ses-in">
+  <span style="font-size:11px;font-weight:700;color:var(--bl)">📅 รอบ:</span>
+  <div class="sf"><label>วันที่</label><input type="date" id="ses-dt" class="si" style="width:140px" oninput="syncSes()"/></div>
+  <div class="sf">
+    <label>ตำแหน่งที่เปิดรับ:</label>
+    <div id="pos-tags" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center"></div>
+    <input id="pos-inp" class="si" style="width:110px" placeholder="+ ชื่อตำแหน่ง"/>
+    <button class="bc" onclick="addPos()">เพิ่ม</button>
+  </div>
+  <div class="sf"><label>จำนวนรับ</label><input type="number" id="ses-q" class="si" style="width:55px" min="0"/><span style="font-size:11px;color:var(--g600)">คน</span></div>
+</div>
+</div>
+
+<!-- SHEET BANNER -->
+<div id="sh-ban">
+  <span style="color:#92400e;font-size:11px">⚠️ ยังไม่เชื่อม Google Sheets</span>
+  <input id="sh-url" class="bi" value="https://script.google.com/macros/s/AKfycbyAbi8BvdqDoFxqb_D6iuY-IIMmZFD0-7LGIUMDT0VFbq8HPpFFjcO1b05N0ifQ_F0mSw/exec"/>
+  <button class="bc" onclick="connectSheet()">เชื่อม</button>
+  <button class="bg" onclick="om('guide-m')">📖 วิธีตั้งค่า</button>
+</div>
+<div id="sh-ok">
+  <span style="color:#15803d;font-weight:700;font-size:11px">✅ เชื่อม Google Sheets แล้ว</span>
+  <button class="bt" style="color:var(--bl);font-size:11px" onclick="loadSheet()">🔄 Refresh</button>
+  <button class="bt" style="color:var(--rd);font-size:11px"  onclick="disconnSheet()">ตัดการเชื่อมต่อ</button>
+  <!-- ปุ่มเชื่อมต่อข้อมูลทั้งหมด -->
+  <button class="btn-sync-all" onclick="syncAll()">
+    <span id="sync-icon">🔁</span> เชื่อมต่อข้อมูลทั้งหมด
+  </button>
+  <span id="sync-status" style="font-size:11px;color:var(--g600)"></span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div id="layout">
+
+<!-- SIDEBAR -->
+<div id="sb">
+  <div id="sb-hd">
+    <div style="font-size:12px;font-weight:700;color:var(--bl);margin-bottom:7px">📋 รายชื่อผู้สมัคร</div>
+    <input id="sb-srch" class="si" style="width:100%;margin-bottom:7px" placeholder="🔍 ค้นหา..." oninput="renderCands()"/>
+    <div class="sb-acts">
+      <button class="bsm bsm-b" onclick="om('add-c-m')">+ เพิ่ม</button>
+      <label class="bsm bsm-b" style="cursor:pointer">📁 CSV<input type="file" accept=".csv" style="display:none" onchange="upCandCSV(event)"/></label>
+      <button class="bsm bsm-o" onclick="dlCandTpl()">⬇ Template</button>
+    </div>
+  </div>
+  <div id="cand-list"></div>
+  <div id="sb-ft">
+    <span id="st-tot">ทั้งหมด 0 คน</span>
+    <span id="st-dn" style="color:var(--gn)">ประเมินแล้ว 0</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div id="ca">
+
+<!-- SCORE PAGE -->
+<div class="page on" id="page-score">
+  <div class="card">
+    <div class="ct">📋 ข้อมูลผู้สมัคร</div>
+    <div class="g2">
+      <div class="full"><label class="lbl">ชื่อ-สกุลผู้สมัคร *</label><input class="inp" id="fn" placeholder="กรอกชื่อ-สกุล" oninput="markDirty()"/></div>
+      <div><label class="lbl">ตำแหน่งที่สมัคร</label><select class="inp" id="fp" onchange="markDirty()"><option value="">-- เลือก --</option></select></div>
+      <div><label class="lbl">วันที่สัมภาษณ์</label><input class="inp" type="date" id="fd" oninput="markDirty()"/></div>
+      <div><label class="lbl">กรรมการผู้ประเมิน</label><input class="inp" id="fiv" readonly/></div>
+    </div>
+  </div>
+  <div id="crit-list"></div>
+  <div class="sum-strip" id="sum-strip">
+    <div>
+      <div style="font-size:11px;color:var(--g600);margin-bottom:2px">คะแนนรวม (6 ด้าน × 5 = 30)</div>
+      <div class="s-big" id="snum">18</div>
+      <div class="s-pct" id="sres">60% ⚠️ พิจารณาเพิ่มเติม</div>
+    </div>
+    <svg id="radar" width="148" height="148" viewBox="0 0 148 148"></svg>
+    <div class="s-acts">
+      <button id="btn-save" onclick="saveRec()">💾 บันทึกคะแนน</button>
+      <button class="btn-pdf" onclick="om('print-m')">🖨️ Export / Print PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY PAGE -->
+<div class="page" id="page-summary">
+  <div class="card">
+    <div class="fr" style="margin-bottom:11px">
+      <div class="ct" style="margin:0">📊 สรุปผลการสัมภาษณ์</div>
+      <input class="src ml" id="sum-src" placeholder="🔍 ค้นหาชื่อ..." oninput="renderSum()"/>
+      <button class="btn-pdf" onclick="om('print-m')">🖨️ Export PDF</button>
+    </div>
+    <div class="frow" id="sum-fr"></div>
+    <div class="tw"><table id="sum-tbl"></table></div>
+  </div>
+  <div class="card">
+    <div class="ct">📊 คะแนนเฉลี่ยต่อกรรมการ</div>
+    <div class="tw"><table id="avg-tbl"></table></div>
+  </div>
+</div>
+
+<!-- ACCEPT PAGE -->
+<div class="page" id="page-accept">
+  <div class="card">
+    <div class="fr" style="margin-bottom:12px">
+      <div class="ct" style="margin:0">🏆 สรุปการรับเข้าทำงาน</div>
+      <span class="adm-badge">🔐 Admin</span>
+      <div class="ml fr">
+        <label style="font-size:11px;font-weight:600;color:var(--g600)">ลำดับหลัก</label>
+        <input type="number" id="ac-mn" class="si" style="width:52px" value="3" min="1"/>
+        <label style="font-size:11px;font-weight:600;color:var(--g600)">สำรอง</label>
+        <input type="number" id="ac-rn" class="si" style="width:52px" value="3" min="0"/>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--g600);margin-bottom:11px">คลิกที่หมายเลขเพื่อสลับ: <span style="color:var(--gn);font-weight:700">● หลัก</span> → <span style="color:#92400e;font-weight:700">● สำรอง</span> → <span style="color:var(--g400)">○ ไม่รับ</span></p>
+    <div id="acc-list"></div>
+    <div style="margin-top:10px"><button class="btn-pdf" onclick="om('print-m')">🖨️ Print รายชื่อรับเข้า</button></div>
+  </div>
+</div>
+
+<!-- MGR PAGE -->
+<div class="page" id="page-mgr">
+  <div class="card">
+    <div class="ct">👤 จัดการผู้ประเมิน</div>
+    <div class="fr" style="margin-bottom:12px;flex-wrap:wrap">
+      <button class="bsm bsm-b" style="padding:5px 11px;font-size:11px" onclick="om('add-m-m')">+ เพิ่มกรรมการ</button>
+      <label class="bsm bsm-b" style="padding:5px 11px;font-size:11px;cursor:pointer">📁 CSV<input type="file" accept=".csv" style="display:none" onchange="upMgrCSV(event)"/></label>
+      <button class="bsm bsm-o" style="padding:5px 11px;font-size:11px" onclick="dlMgrTpl()">⬇ Template</button>
+    </div>
+    <div id="mgr-list"></div>
+  </div>
+</div>
+
+<!-- ATTENDANCE PAGE -->
+<div class="page" id="page-attend">
+  <div class="card">
+    <div class="fr" style="margin-bottom:12px">
+      <div class="ct" style="margin:0">📋 รายชื่อผู้สมัคร — เช็คการเข้าสัมภาษณ์</div>
+      <div class="ml fr">
+        <span style="font-size:11px;color:var(--gn);font-weight:700">● มา</span>
+        <span style="font-size:11px;color:var(--rd);font-weight:700">● ไม่มา</span>
+        <span style="font-size:11px;color:var(--g400);font-weight:700">○ ยังไม่ระบุ</span>
+      </div>
+      <button class="btn-pdf" onclick="doPrint('attend')">🖨️ Print รายชื่อเช็คชื่อ</button>
+    </div>
+    <div class="tw"><table id="attend-tbl"></table></div>
+  </div>
+</div>
+
+</div><!-- /ca -->
+</div><!-- /layout -->
+
+<!-- PRINT DOC — rendered here, printed via @media print -->
+<div id="print-doc"></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MODALS -->
+<div class="mbg" id="add-c-m">
+<div class="mbox" style="max-width:400px">
+  <div class="mhd"><span class="mt">+ เพิ่มผู้สมัคร</span><button class="mc" onclick="cm('add-c-m')">×</button></div>
+  <div style="margin-bottom:10px"><label class="lbl">ชื่อ-สกุล *</label><input class="inp" id="ac-nm" placeholder="ชื่อ-สกุล"/></div>
+  <div style="margin-bottom:10px"><label class="lbl">ตำแหน่ง</label><select class="inp" id="ac-ps"></select></div>
+  <div style="margin-bottom:14px"><label class="lbl">หมายเหตุ</label><input class="inp" id="ac-nt" placeholder="ไม่บังคับ"/></div>
+  <div class="fr"><button class="btn-ok" onclick="addCand()">เพิ่ม</button><button class="btn-cl" onclick="cm('add-c-m')">ยกเลิก</button></div>
+</div></div>
+
+<div class="mbg" id="add-m-m">
+<div class="mbox" style="max-width:400px">
+  <div class="mhd"><span class="mt">+ เพิ่มกรรมการ</span><button class="mc" onclick="cm('add-m-m')">×</button></div>
+  <div style="margin-bottom:10px"><label class="lbl">ชื่อ *</label><input class="inp" id="am-fn" placeholder="ชื่อ"/></div>
+  <div style="margin-bottom:10px"><label class="lbl">นามสกุล *</label><input class="inp" id="am-ln" placeholder="นามสกุล"/></div>
+  <div style="margin-bottom:14px"><label class="lbl">ตำแหน่ง / วุฒิ</label><input class="inp" id="am-ti" placeholder="เช่น ผศ.นพ."/></div>
+  <div class="fr"><button class="btn-ok" onclick="addMgr()">เพิ่ม</button><button class="btn-cl" onclick="cm('add-m-m')">ยกเลิก</button></div>
+</div></div>
+
+<div class="mbg" id="guide-m">
+<div class="mbox">
+  <div class="mhd"><span class="mt">🔗 วิธีตั้งค่า Google Apps Script</span><button class="mc" onclick="cm('guide-m')">×</button></div>
+  <div class="guide-box">
+    <b style="color:var(--bl)">ขั้นตอน:</b><br/>
+    1. Google Sheets → copy <b>Sheet ID</b> จาก URL (ระหว่าง /d/ และ /edit)<br/>
+    2. <b>Extensions → Apps Script</b> → <span style="color:var(--rd)">ลบโค้ดเดิมทั้งหมด</span> → วางโค้ด → แก้ Sheet ID<br/>
+    3. <b>Deploy → New deployment → Web app</b><br/>
+    4. Execute as: <b>Me</b> | Who has access: <b>Anyone</b> → Deploy<br/>
+    5. Copy URL → วางใน Dashboard → กด "เชื่อม"
+  </div>
+  <div class="guide-warn">⚠️ Error บ่อย: ลืมลบโค้ดเดิม / ลืมแก้ Sheet ID / เลือก "Anyone with link" แทน "Anyone"</div>
+  <pre class="cb" id="gs-disp"></pre>
+  <button class="btn-ok" id="btn-cpgs" onclick="cpGS()" style="margin-top:9px">📋 Copy โค้ด Apps Script</button>
+</div></div>
+
+<div class="mbg" id="print-m">
+<div class="mbox" style="max-width:400px">
+  <div class="mhd"><span class="mt">🖨️ เลือกรูปแบบ Print / Export</span><button class="mc" onclick="cm('print-m')">×</button></div>
+  <div class="popt" onclick="doPrint('sum-all')"><div class="poi">📊</div><div><div class="pot">ตารางสรุปทุกคน</div><div class="pos2">ลงชื่อกรรมการทุกท่าน</div></div></div>
+  <div class="popt" onclick="doPrint('sum-one')"><div class="poi">📋</div><div><div class="pot">ตารางสรุป — กรรมการที่เลือกอยู่</div><div class="pos2">ลงชื่อกรรมการท่านเดียว</div></div></div>
+  <div class="popt" onclick="doPrint('indiv-all')"><div class="poi">📄</div><div><div class="pot">ใบประเมินรายบุคคล — ทุกคน</div><div class="pos2">ลงชื่อกรรมการทุกท่าน</div></div></div>
+  <div class="popt" onclick="doPrint('indiv-one')"><div class="poi">👤</div><div><div class="pot">ใบประเมิน — ผู้สมัครที่เลือกอยู่</div><div class="pos2">ลงชื่อกรรมการท่านเดียว</div></div></div>
+  <div class="popt" onclick="doPrint('accept')"><div class="poi">🏆</div><div><div class="pot">รายชื่อรับเข้าทำงาน</div><div class="pos2">ลำดับหลัก + สำรอง + ลงชื่อทุกท่าน</div></div></div>
+</div></div>
+
+<div class="mbg" id="cfm-m">
+<div class="mbox" style="max-width:360px">
+  <div class="mhd"><span class="mt">ยืนยัน</span><button class="mc" onclick="cm('cfm-m')">×</button></div>
+  <div class="cfm-msg" id="cfm-msg"></div>
+  <div class="cfm-btns"><button class="btn-ok" id="cfm-ok">ตกลง</button><button class="btn-cl" onclick="cm('cfm-m')">ยกเลิก</button></div>
+</div></div>
+
+<div id="admin-lock">
+<div id="admin-box">
+  <h2>🔐 Admin Access</h2>
+  <p style="font-size:13px;color:var(--g600);margin-bottom:14px">กรุณาใส่รหัสผ่าน Admin</p>
+  <input id="admin-pin" type="password" maxlength="20" placeholder="รหัสผ่าน" onkeydown="if(event.key==='Enter')chkAdmin()"/>
+  <div class="cfm-btns"><button class="btn-ok" onclick="chkAdmin()">เข้าสู่ระบบ</button><button class="btn-cl" onclick="cancelAdmin()">ยกเลิก</button></div>
+  <p style="font-size:10px;color:var(--g400);margin-top:10px">รหัสเริ่มต้น: <b>admin1234</b></p>
+</div></div>
+
+<!-- DELETE CAND ADMIN MODAL -->
+<div class="mbg" id="del-cand-m">
+<div class="mbox" style="max-width:360px;text-align:center">
+  <div class="mhd"><span class="mt">🗑 ลบผู้สมัคร (Admin)</span><button class="mc" onclick="cm('del-cand-m')">×</button></div>
+  <p id="del-cand-name" style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--g800)"></p>
+  <p style="font-size:12px;color:var(--g600);margin-bottom:14px">ใส่รหัสผ่าน Admin เพื่อยืนยันการลบ</p>
+  <input id="del-cand-pin" type="password" maxlength="20" placeholder="รหัสผ่าน"
+    style="width:100%;border:2px solid var(--g200);border-radius:10px;padding:9px 14px;font-size:18px;text-align:center;outline:none;letter-spacing:6px;margin-bottom:12px"
+    onkeydown="if(event.key==='Enter')confirmDelCand()"/>
+  <div class="cfm-btns">
+    <button class="btn-ok" style="background:var(--rd)" onclick="confirmDelCand()">ลบ</button>
+    <button class="btn-cl" onclick="cm('del-cand-m')">ยกเลิก</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════════════
+const ADMIN_PASS = "admin1234";
+const DEFAULT_SHEET = "https://script.google.com/macros/s/AKfycbyAbi8BvdqDoFxqb_D6iuY-IIMmZFD0-7LGIUMDT0VFbq8HPpFFjcO1b05N0ifQ_F0mSw/exec";
+
+// ══════════════════════════════════════════════════════
+//  CONSTANTS
+// ══════════════════════════════════════════════════════
+const CR=[
+  {k:"M",lb:"คุณธรรมและความซื่อสัตย์",  em:"⚖️",sb:"Moral & Integrity"},
+  {k:"E",lb:"การเรียนรู้และพัฒนาองค์กร",em:"📚",sb:"Education & Learning"},
+  {k:"D",lb:"การบริหารด้วยข้อมูล",       em:"📊",sb:"Data Driven"},
+  {k:"U",lb:"ความเป็นหนึ่งเดียว",         em:"🤝",sb:"Unity"},
+  {k:"P",lb:"ความเป็นมืออาชีพ",           em:"🎯",sb:"Professionalism"},
+  {k:"C",lb:"วัฒนธรรมองค์กร",             em:"🌟",sb:"Culture"},
+];
+const SL={1:"ต้องพัฒนามาก",2:"ต้องพัฒนา",3:"ผ่านเกณฑ์",4:"ดี",5:"ดีเยี่ยม"};
+const SC={1:"#ef4444",2:"#f97316",3:"#eab308",4:"#22c55e",5:"#0ea5e9"};
+const RS=[
+  {mn:80,lb:"แนะนำให้รับ",      ic:"✅",co:"#16a34a",bg:"#f0fdf4",bd:"#86efac"},
+  {mn:60,lb:"พิจารณาเพิ่มเติม", ic:"⚠️",co:"#d97706",bg:"#fffbeb",bd:"#fcd34d"},
+  {mn:0, lb:"ไม่แนะนำให้รับ",   ic:"❌",co:"#dc2626",bg:"#fef2f2",bd:"#fca5a5"},
+];
+const gRes=p=>RS.find(r=>p>=r.mn);
+const todayS=()=>new Date().toISOString().split("T")[0];
+const fmtD=d=>{if(!d)return"";const p=String(d).split("-");return p.length===3?`${p[2]}/${p[1]}/${+p[0]+543}`:d;};
+const csvParse=t=>t.trim().split(/\r?\n/).slice(1).map(l=>l.split(",").map(x=>x.trim().replace(/^"|"$/g,"")));
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let mgrs=[{id:1,fn:"สมชาย",ln:"ใจดี",ti:"ผศ.นพ."},{id:2,fn:"วิภา",ln:"เจริญสุข",ti:"รศ.พญ."},{id:3,fn:"ธีระ",ln:"มั่นคง",ti:"อ.นพ."}];
+let mgrSeq=4, cands=[], candSeq=1;
+let curCid=null, curMid=mgrs[0].id;
+let fSc=Object.fromEntries(CR.map(c=>[c.k,3]));
+let fRm=Object.fromEntries(CR.map(c=>[c.k,""]));
+let formDirty=false;
+let allRecs=[];
+let ses={date:todayS(),positions:["อาจารย์แพทย์"],quota:0};
+let sheetUrl=DEFAULT_SHEET, sheetReady=false;
+let sumSort={col:"seq",dir:1}, sumFilt="all";
+let cfmCb=null, adminUnlocked=false, pendingPage=null;
+let accState={};
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("ses-dt").value=ses.date;
+  document.getElementById("fd").value=ses.date;
+  document.getElementById("sh-url").value=sheetUrl;
+  renderIVSel(); renderPos(); renderCritScaffold(); updateSum();
+  renderCands(); renderMgrs(); showGSCode();
+  // event delegation for modals
+  document.querySelectorAll(".mbg").forEach(el=>{
+    el.addEventListener("click",function(e){if(e.target===this)this.classList.remove("open");});
+  });
+  // auto connect
+  setTimeout(autoConnect, 400);
+});
+
+function autoConnect(){
+  sheetUrl=document.getElementById("sh-url").value.trim();
+  if(sheetUrl.startsWith("https://")){
+    sheetReady=true;
+    document.getElementById("sh-ban").style.display="none";
+    document.getElementById("sh-ok").style.display="flex";
+    loadSheet();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  SYNC ALL — force push all local records to sheet
+// ══════════════════════════════════════════════════════
+async function syncAll(){
+  if(!sheetReady||!sheetUrl){toast("ยังไม่เชื่อม Google Sheets","warn");return;}
+  const icon=document.getElementById("sync-icon");
+  const stat=document.getElementById("sync-status");
+  icon.textContent="⏳"; stat.textContent="กำลังเชื่อมต่อ...";
+  // 1. push all local records
+  let ok=0,fail=0;
+  for(const rec of allRecs){
+    try{
+      await fetch(sheetUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)});
+      ok++;
+    }catch(e){fail++;}
+  }
+  // 2. pull from sheet
+  try{
+    const res=await fetch(sheetUrl,{mode:"cors"});
+    const data=await res.json();
+    if(Array.isArray(data)){
+      data.forEach(r=>{
+        const ex=allRecs.findIndex(x=>String(x.candId)===String(r.candId)&&String(x.mgrId)===String(r.mgrId));
+        if(ex>=0)allRecs[ex]=r; else allRecs.push(r);
+      });
+    }
+    renderCands();
+    if(document.getElementById("page-summary").classList.contains("on"))renderSum();
+    icon.textContent="✅";
+    stat.textContent=`ส่ง ${ok} รายการ | รับ ${Array.isArray(data)?data.length:0} รายการ`;
+    toast("เชื่อมต่อข้อมูลทั้งหมดเรียบร้อย","ok");
+  }catch(e){
+    icon.textContent="❌"; stat.textContent="เชื่อมต่อไม่สำเร็จ: "+e.message;
+    toast("เชื่อมต่อไม่สำเร็จ: "+e.message,"warn");
+  }
+  setTimeout(()=>{icon.textContent="🔁";stat.textContent="";},5000);
+}
+
+// ══════════════════════════════════════════════════════
+//  MANAGERS
+// ══════════════════════════════════════════════════════
+const mDis=m=>`${m.ti} ${m.fn} ${m.ln}`;
+function renderIVSel(){
+  const s=document.getElementById("iv-sel");
+  s.innerHTML=mgrs.map(m=>`<option value="${m.id}">${mDis(m)}</option>`).join("");
+  s.value=curMid;
+  document.getElementById("fiv").value=mDis(mgrs.find(m=>m.id===curMid)||mgrs[0]);
+}
+function onIVC(){
+  curMid=+document.getElementById("iv-sel").value;
+  document.getElementById("fiv").value=mDis(mgrs.find(m=>m.id===curMid));
+  if(curCid) loadForm(curCid);
+}
+function renderMgrs(){
+  const el=document.getElementById("mgr-list");
+  if(!mgrs.length){el.innerHTML=`<div class="empty">ยังไม่มีกรรมการ</div>`;return;}
+  el.innerHTML=mgrs.map(m=>`<div class="mgr-row">
+    <div class="mgr-av">${m.fn[0]}</div>
+    <div class="mgr-inf"><div class="mgr-nm">${mDis(m)}</div><div class="mgr-ti">${m.ti}</div></div>
+    <button class="mgr-del" onclick="delMgr(${m.id})">🗑</button>
+  </div>`).join("");
+}
+function addMgr(){
+  const fn=document.getElementById("am-fn").value.trim();
+  const ln=document.getElementById("am-ln").value.trim();
+  const ti=document.getElementById("am-ti").value.trim();
+  if(!fn||!ln){toast("กรุณากรอกชื่อและนามสกุล","warn");return;}
+  mgrs.push({id:mgrSeq++,fn,ln,ti:ti||""});
+  cm("add-m-m");["am-fn","am-ln","am-ti"].forEach(id=>document.getElementById(id).value="");
+  renderMgrs();renderIVSel();toast("เพิ่มกรรมการแล้ว","ok");
+}
+function delMgr(id){
+  cfm(`ลบกรรมการ "${mDis(mgrs.find(m=>m.id===id))}" ออก?`,()=>{
+    mgrs=mgrs.filter(m=>m.id!==id);
+    if(curMid===id&&mgrs.length)curMid=mgrs[0].id;
+    renderMgrs();renderIVSel();
+  });
+}
+function upMgrCSV(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{csvParse(ev.target.result).forEach(row=>{if(row[0])mgrs.push({id:mgrSeq++,fn:row[0]||"",ln:row[1]||"",ti:row[2]||""});});
+    renderMgrs();renderIVSel();toast("เพิ่มกรรมการจาก CSV","ok");};
+  r.readAsText(f,"UTF-8");e.target.value="";
+}
+function dlMgrTpl(){ dlFile("ชื่อ,นามสกุล,ตำแหน่ง/วุฒิ\nสมชาย,ใจดี,ผศ.นพ.","mgr_template.csv"); }
+
+// ══════════════════════════════════════════════════════
+//  POSITIONS
+// ══════════════════════════════════════════════════════
+function renderPos(){
+  document.getElementById("pos-tags").innerHTML=ses.positions.map((p,i)=>
+    `<div class="pos-tag">${p}<button onclick="rmPos(${i})">×</button></div>`).join("");
+  const fp=document.getElementById("fp"),cur=fp.value;
+  fp.innerHTML=`<option value="">-- เลือก --</option>`+ses.positions.map(p=>`<option value="${p}">${p}</option>`).join("");
+  if(ses.positions.includes(cur))fp.value=cur;
+  const ap=document.getElementById("ac-ps");
+  if(ap)ap.innerHTML=`<option value="">-- เลือก --</option>`+ses.positions.map(p=>`<option value="${p}">${p}</option>`).join("");
+}
+function addPos(){const v=document.getElementById("pos-inp").value.trim();if(!v||ses.positions.includes(v))return;ses.positions.push(v);document.getElementById("pos-inp").value="";renderPos();}
+function rmPos(i){ses.positions.splice(i,1);renderPos();}
+function syncSes(){
+  ses.date=document.getElementById("ses-dt").value;
+  ses.quota=parseInt(document.getElementById("ses-q").value)||0;
+  if(ses.date)document.getElementById("fd").value=ses.date;
+}
+
+// ══════════════════════════════════════════════════════
+//  CANDIDATES
+// ══════════════════════════════════════════════════════
+function addCand(){
+  const nm=document.getElementById("ac-nm").value.trim();
+  if(!nm){toast("กรุณากรอกชื่อ","warn");return;}
+  const id=candSeq++;
+  cands.push({id,seq:id,name:nm,position:document.getElementById("ac-ps").value,note:document.getElementById("ac-nt").value.trim(),savedBy:[],savedAt:null});
+  cm("add-c-m");["ac-nm","ac-nt"].forEach(x=>document.getElementById(x).value="");
+  renderCands();selCand(id);toast("เพิ่มผู้สมัครแล้ว","ok");
+}
+function upCandCSV(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{csvParse(ev.target.result).forEach(row=>{if(row[0]){const id=candSeq++;cands.push({id,seq:id,name:row[0],position:row[1]||"",note:row[2]||"",savedBy:[],savedAt:null});}});
+    renderCands();toast("เพิ่มผู้สมัครจาก CSV","ok");};
+  r.readAsText(f,"UTF-8");e.target.value="";
+}
+function dlCandTpl(){dlFile("ชื่อ-นามสกุล,ตำแหน่งที่สมัคร,หมายเหตุ\nนายสมศักดิ์ ดีใจ,อาจารย์แพทย์,","cand_template.csv");}
+function renderCands(){
+  const q=(document.getElementById("sb-srch").value||"").toLowerCase();
+  const list=cands.filter(c=>c.name.toLowerCase().includes(q));
+  const el=document.getElementById("cand-list");
+  if(!list.length){el.innerHTML=`<div class="empty">ยังไม่มีผู้สมัคร<br/>กด "+ เพิ่ม" หรือ Upload CSV</div>`;updateStats();return;}
+  el.innerHTML=list.map(c=>{
+    const done=hasSaved(c.id,curMid);
+    const rec=getRec(c.id,curMid);
+    const att=c.attended; // undefined=ยังไม่ระบุ, true=มา, false=ไม่มา
+    const attDot = att===true
+      ? `<span title="มาสัมภาษณ์" style="font-size:10px;color:var(--gn)">●</span>`
+      : att===false
+      ? `<span title="ไม่มาสัมภาษณ์" style="font-size:10px;color:var(--rd)">●</span>`
+      : `<span title="ยังไม่ระบุ" style="font-size:10px;color:var(--g400)">○</span>`;
+    return `<div class="ci ${done?"done":"todo"} ${curCid===c.id?"sel":""}" onclick="selCand(${c.id})" style="position:relative">
+      <div class="cn ${done?"done":"todo"}">${c.seq}</div>
+      <div class="ci-inf"><div class="ci-nm">${c.name}</div><div class="ci-ps">${c.position||"-"}</div></div>
+      ${attDot}
+      ${done?`<div style="font-size:10px;font-weight:700;color:var(--gn)">${rec?.total}/30</div>`:""}
+      <button onclick="event.stopPropagation();reqDelCand(${c.id})" title="ลบ (ต้องใส่รหัส Admin)"
+        style="background:none;border:none;color:var(--g400);font-size:14px;padding:0 0 0 2px;cursor:pointer;line-height:1;flex-shrink:0">🗑</button>
+    </div>`;
+  }).join("");
+  updateStats();
+}
+function updateStats(){
+  const done=cands.filter(c=>hasSaved(c.id,curMid)).length;
+  document.getElementById("st-tot").textContent=`ทั้งหมด ${cands.length} คน`;
+  document.getElementById("st-dn").textContent=`ประเมินแล้ว ${done}`;
+}
+const hasSaved=(cid,mid)=>allRecs.some(r=>String(r.candId)===String(cid)&&String(r.mgrId)===String(mid));
+const getRec=(cid,mid)=>allRecs.find(r=>String(r.candId)===String(cid)&&String(r.mgrId)===String(mid));
+function selCand(id){curCid=id;loadForm(id);renderCands();sw("score");}
+function loadForm(id){
+  const c=cands.find(x=>x.id===id);if(!c)return;
+  document.getElementById("fn").value=c.name;
+  renderPos();document.getElementById("fp").value=c.position||"";
+  document.getElementById("fd").value=ses.date;
+  document.getElementById("fiv").value=mDis(mgrs.find(m=>m.id===curMid)||mgrs[0]);
+  const rec=getRec(id,curMid);
+  fSc=rec?{...rec.scores}:Object.fromEntries(CR.map(c=>[c.k,3]));
+  fRm=rec?{...rec.remarks}:Object.fromEntries(CR.map(c=>[c.k,""]));
+  renderCritScaffold();updateSum();
+  const btn=document.getElementById("btn-save");
+  if(rec){btn.textContent="✅ บันทึกแล้ว (แก้ไข)";btn.classList.add("saved");}
+  else{btn.textContent="💾 บันทึกคะแนน";btn.classList.remove("saved");}
+  btn.disabled=false;formDirty=false;
+}
+
+// ══════════════════════════════════════════════════════
+//  SCORE — event delegation (ไม่มี onclick ใน innerHTML)
+// ══════════════════════════════════════════════════════
+function renderCritScaffold(){
+  const el=document.getElementById("crit-list");
+  el.innerHTML=CR.map(c=>`
+    <div class="scard" id="scard-${c.k}" style="border-left-color:${SC[fSc[c.k]]}">
+      <div class="sh">
+        <span style="font-size:17px">${c.em}</span>
+        <span style="font-weight:700;font-size:13px">(${c.k}) ${c.lb}</span>
+        <span style="font-size:10px;color:var(--g400)">${c.sb}</span>
+      </div>
+      <div class="sbtns" id="sbtns-${c.k}">
+        ${[1,2,3,4,5].map(v=>`<button class="sbtn${fSc[c.k]===v?" on":""}" data-key="${c.k}" data-val="${v}"
+          style="${fSc[c.k]===v?`background:${SC[v]};border-color:${SC[v]};color:#fff;`:""}">${v}</button>`).join("")}
+        <span class="slv" id="slv-${c.k}" style="color:${SC[fSc[c.k]]}">${SL[fSc[c.k]]}</span>
+      </div>
+      <input class="srm" id="rem-${c.k}" data-key="${c.k}"
+        value="${(fRm[c.k]||"").replace(/"/g,"&quot;")}"
+        placeholder="หมายเหตุ / พฤติกรรมที่สังเกตเห็น..."/>
+    </div>`).join("");
+
+  // single event listener on container — fast, no duplicate handlers
+  const oldEl=el.cloneNode(true);
+  el.parentNode.replaceChild(oldEl,el);
+  const newEl=document.getElementById("crit-list");
+  newEl.addEventListener("pointerup",e=>{
+    const btn=e.target.closest(".sbtn[data-key][data-val]");
+    if(btn){e.preventDefault();setScore(btn.dataset.key,+btn.dataset.val);}
+  });
+  newEl.addEventListener("input",e=>{
+    const inp=e.target.closest(".srm[data-key]");
+    if(inp){fRm[inp.dataset.key]=inp.value;markDirty();}
+  });
+}
+function setScore(key,val){
+  fSc[key]=val;
+  document.querySelectorAll(`#sbtns-${key} .sbtn`).forEach(b=>{
+    const v=+b.dataset.val;
+    if(v===val){b.classList.add("on");b.style.background=SC[v];b.style.borderColor=SC[v];b.style.color="#fff";}
+    else{b.classList.remove("on");b.style.background="";b.style.borderColor="";b.style.color="";}
+  });
+  document.getElementById(`slv-${key}`).textContent=SL[val];
+  document.getElementById(`slv-${key}`).style.color=SC[val];
+  document.getElementById(`scard-${key}`).style.borderLeftColor=SC[val];
+  markDirty();updateSum();
+}
+function markDirty(){
+  formDirty=true;
+  const btn=document.getElementById("btn-save");
+  btn.disabled=false;
+  if(btn.classList.contains("saved")){btn.textContent="💾 บันทึก (มีการแก้ไข)";btn.classList.remove("saved");}
+}
+function updateSum(){
+  const tot=Object.values(fSc).reduce((a,b)=>a+b,0);
+  const pct=Math.round(tot/30*100);const res=gRes(pct);
+  document.getElementById("snum").textContent=tot;document.getElementById("snum").style.color=res.co;
+  document.getElementById("sres").textContent=`${pct}% ${res.ic} ${res.lb}`;document.getElementById("sres").style.color=res.co;
+  const strip=document.getElementById("sum-strip");strip.style.background=res.bg;strip.style.borderColor=res.bd;
+  drawRadar("radar",fSc,148);
+}
+
+// ══════════════════════════════════════════════════════
+//  SAVE
+// ══════════════════════════════════════════════════════
+async function saveRec(){
+  const name=document.getElementById("fn").value.trim();
+  if(!name){toast("กรุณากรอกชื่อผู้สมัคร","warn");return;}
+  const btn=document.getElementById("btn-save");
+  btn.disabled=true;btn.textContent="กำลังบันทึก...";
+  if(!curCid){
+    const id=candSeq++;
+    cands.push({id,seq:id,name,position:document.getElementById("fp").value,note:"",savedBy:[],savedAt:null});
+    curCid=id;
+  }
+  const cand=cands.find(c=>c.id===curCid);
+  const tot=Object.values(fSc).reduce((a,b)=>a+b,0);
+  const pct=Math.round(tot/30*100);const res=gRes(pct);
+  const mgr=mgrs.find(m=>m.id===curMid);
+  CR.forEach(c=>{const el=document.getElementById(`rem-${c.k}`);if(el)fRm[c.k]=el.value;});
+  const rec={
+    candId:curCid,mgrId:curMid,
+    candidateName:name,
+    position:document.getElementById("fp").value,
+    interviewDate:document.getElementById("fd").value,
+    interviewer:mgr?mDis(mgr):"",
+    scores:{...fSc},remarks:{...fRm},
+    total:tot,pct,result:res.lb,
+    savedAt:new Date().toISOString()
+  };
+  const idx=allRecs.findIndex(r=>String(r.candId)===String(curCid)&&String(r.mgrId)===String(curMid));
+  if(idx>=0)allRecs[idx]=rec;else allRecs.push(rec);
+  if(cand){cand.name=name;cand.position=rec.position;}
+  formDirty=false;
+  if(sheetReady&&sheetUrl){
+    try{await fetch(sheetUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)});}
+    catch(e){console.warn(e);}
+  }
+  btn.textContent="✅ บันทึกแล้ว (แก้ไข)";btn.classList.add("saved");btn.disabled=false;
+  renderCands();
+  toast(`บันทึกคะแนนของ "${name}" เรียบร้อยแล้ว`,"ok");
+}
+
+// ══════════════════════════════════════════════════════
+//  RADAR
+// ══════════════════════════════════════════════════════
+function drawRadar(id,sc,sz){
+  const svg=document.getElementById(id);if(!svg)return;
+  const cx=sz/2,cy=sz/2,r=sz*.36,n=CR.length;
+  const ang=i=>Math.PI*2*i/n-Math.PI/2;
+  const pt=(i,rad)=>({x:cx+rad*Math.cos(ang(i)),y:cy+rad*Math.sin(ang(i))});
+  let h="";
+  [1,2,3,4,5].forEach(lv=>CR.forEach((_,i)=>{
+    const p1=pt(i,lv/5*r),p2=pt((i+1)%n,lv/5*r);
+    h+=`<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/>`;
+  }));
+  CR.forEach((_,i)=>{const p=pt(i,r);h+=`<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="#cbd5e1" stroke-width="1"/>`;});
+  const dp=CR.map((c,i)=>pt(i,(sc[c.k]||0)/5*r));
+  h+=`<path d="${dp.map((p,i)=>`${i===0?"M":"L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ")}Z" fill="#0ea5e925" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>`;
+  dp.forEach(p=>{h+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#0ea5e9"/>`;});
+  CR.forEach((c,i)=>{const p=pt(i,r+13);h+=`<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#475569" font-weight="700">${c.k}</text>`;});
+  svg.innerHTML=h;
+}
+
+// ══════════════════════════════════════════════════════
+//  SUMMARY
+// ══════════════════════════════════════════════════════
+function renderSum(){
+  const q=(document.getElementById("sum-src")?.value||"").toLowerCase();
+  const ivIds=[...new Set(allRecs.map(r=>r.mgrId))];
+  document.getElementById("sum-fr").innerHTML=
+    `<span style="font-size:11px;font-weight:700;color:var(--g600)">กรรมการ:</span>`+
+    ["all",...ivIds].map(id=>`<button class="fbtn ${sumFilt==id?"on":""}" onclick="setSF('${id}')">${id==="all"?"ทั้งหมด":mDis(mgrs.find(m=>m.id==id)||{fn:id,ln:"",ti:""})}</button>`).join("")+
+    `<span style="font-size:11px;font-weight:700;color:var(--g600);margin-left:8px">เรียง:</span>`+
+    ["seq","total",...CR.map(c=>c.k)].map(col=>`<button class="fbtn ${sumSort.col===col?"on":""}" onclick="setSort('${col}')">${col==="seq"?"ลำดับ":col==="total"?"รวม":col}${sumSort.col===col?(sumSort.dir>0?"↑":"↓"):""}</button>`).join("");
+
+  const filtR=sumFilt==="all"?allRecs:allRecs.filter(r=>r.mgrId==sumFilt);
+  let rows=cands.map(c=>{
+    const recs=filtR.filter(r=>String(r.candId)===String(c.id));if(!recs.length)return null;
+    const avgK=k=>+(recs.reduce((s,r)=>s+(r.scores?.[k]||0),0)/recs.length).toFixed(1);
+    const tot=+(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+    const pct=Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+    return{c,sc:Object.fromEntries(CR.map(cr=>[cr.k,avgK(cr.k)])),tot,pct,cnt:recs.length};
+  }).filter(Boolean).filter(r=>r.c.name.toLowerCase().includes(q));
+  rows.sort((a,b)=>{
+    const va=sumSort.col==="seq"?a.c.seq:sumSort.col==="total"?a.tot:a.sc[sumSort.col]||0;
+    const vb=sumSort.col==="seq"?b.c.seq:sumSort.col==="total"?b.tot:b.sc[sumSort.col]||0;
+    return(va-vb)*sumSort.dir;
+  });
+  document.getElementById("sum-tbl").innerHTML=`<thead><tr>
+    <th onclick="setSort('seq')">#</th><th>ชื่อผู้สมัคร</th><th>ตำแหน่ง</th>
+    ${CR.map(c=>`<th onclick="setSort('${c.k}')" style="text-align:center">${c.k}</th>`).join("")}
+    <th onclick="setSort('total')" style="text-align:center">รวม</th>
+    <th style="text-align:center">%</th><th>ผล</th><th>กรรมการ</th>
+    </tr></thead><tbody>${rows.length?rows.map((r,i)=>{
+      const res=gRes(r.pct);
+      return`<tr style="cursor:pointer" onclick="selCand(${r.c.id})">
+        <td style="color:var(--g400)">${r.c.seq}</td>
+        <td style="font-weight:600">${r.c.name}</td><td>${r.c.position||"-"}</td>
+        ${CR.map(c=>`<td style="text-align:center;font-weight:700;color:${SC[Math.round(r.sc[c.k])]||"#94a3b8"}">${r.sc[c.k]}</td>`).join("")}
+        <td style="text-align:center;font-weight:700">${r.tot}/30</td>
+        <td style="text-align:center">${r.pct}%</td>
+        <td><span class="badge" style="background:${res.bg};color:${res.co}">${res.ic} ${res.lb}</span></td>
+        <td style="font-size:11px;color:var(--g400)">${r.cnt} ท่าน</td>
+      </tr>`;
+    }).join(""):`<tr><td colspan="13" class="empty">ไม่พบข้อมูล</td></tr>`}</tbody>`;
+
+  const atbl=document.getElementById("avg-tbl");
+  if(!ivIds.length){atbl.innerHTML=`<tr><td class="empty">ยังไม่มีข้อมูล</td></tr>`;return;}
+  const avgK=(rows,k)=>rows.length?+(rows.reduce((s,r)=>s+(r.scores?.[k]||0),0)/rows.length).toFixed(1):"-";
+  atbl.innerHTML=`<thead><tr><th>กรรมการ</th><th>จำนวน</th>${CR.map(c=>`<th style="text-align:center">${c.k}</th>`).join("")}<th style="text-align:center">เฉลี่ย %</th></tr></thead>
+    <tbody>${ivIds.map(id=>{
+      const rws=allRecs.filter(r=>r.mgrId==id);
+      const ap=rws.length?Math.round(rws.reduce((s,r)=>s+r.pct,0)/rws.length):0;
+      const res=gRes(ap);const m=mgrs.find(x=>x.id==id);
+      return`<tr><td style="font-weight:600">${m?mDis(m):id}</td><td style="text-align:center">${rws.length}</td>
+        ${CR.map(c=>`<td style="text-align:center;font-weight:700;color:${SC[Math.round(avgK(rws,c.k))]||"#94a3b8"}">${avgK(rws,c.k)}</td>`).join("")}
+        <td style="text-align:center"><span class="badge" style="background:${res.bg};color:${res.co}">${ap}%</span></td></tr>`;
+    }).join("")}</tbody>`;
+}
+function setSF(v){sumFilt=v;renderSum();}
+function setSort(col){if(sumSort.col===col)sumSort.dir*=-1;else{sumSort.col=col;sumSort.dir=-1;}renderSum();}
+
+// ══════════════════════════════════════════════════════
+//  ACCEPTANCE
+// ══════════════════════════════════════════════════════
+function renderAccept(){
+  const ranked=cands.map(c=>{
+    const recs=allRecs.filter(r=>String(r.candId)===String(c.id));if(!recs.length)return null;
+    const avg=+(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+    const pct=Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+    return{c,avg,pct};
+  }).filter(Boolean).sort((a,b)=>b.avg-a.avg);
+  const el=document.getElementById("acc-list");
+  if(!ranked.length){el.innerHTML=`<div class="empty">ยังไม่มีข้อมูลการประเมิน</div>`;return;}
+  el.innerHTML=ranked.map((r,i)=>{
+    const st=accState[r.c.id]||"none";
+    const res=gRes(r.pct);
+    const cls=st==="main"?"a-main":st==="reserve"?"a-res":"a-none";
+    const lbl=st==="main"?"หลัก":st==="reserve"?"ส.":"○";
+    return`<div class="acc-row">
+      <div class="acc-num ${cls}" onclick="toggleAcc(${r.c.id})" title="คลิกเพื่อเปลี่ยนสถานะ">${lbl}</div>
+      <div style="font-size:10px;color:var(--g400);width:22px;text-align:center">${i+1}</div>
+      <div style="flex:1;font-weight:600;font-size:13px">${r.c.name}</div>
+      <div style="font-size:11px;color:var(--g400);margin-right:8px">${r.c.position||""}</div>
+      <div style="font-weight:700;color:var(--bl);font-size:13px">${r.avg}/30</div>
+      <span class="badge" style="background:${res.bg};color:${res.co}">${r.pct}% ${res.ic}</span>
+    </div>`;
+  }).join("");
+}
+function toggleAcc(id){
+  const cur=accState[id]||"none";
+  accState[id]=cur==="none"?"main":cur==="main"?"reserve":"none";
+  renderAccept();
+}
+
+// ══════════════════════════════════════════════════════
+//  PRINT — ใช้ @media print + window.print()
+//  render HTML ลงใน #print-doc แล้ว window.print()
+// ══════════════════════════════════════════════════════
+function sigHTML(sigMgrs){
+  const rows=[];
+  for(let i=0;i<sigMgrs.length;i+=4)rows.push(sigMgrs.slice(i,i+4));
+  return`<div class="sig-block">`+rows.map(row=>`
+    <div class="sig-row">${row.map(m=>`
+      <div class="sig-item">
+        <div class="sig-line"></div>
+        <div class="sig-name">(${m.fn} ${m.ln})</div>
+        <div class="sig-title">${m.ti}</div>
+      </div>`).join("")}
+    </div>`).join("")+`</div>`;
+}
+
+function hdrHTML(title,sub){
+  return`<div class="p-hdr" style="padding:5mm 4mm 4mm">
+    <div class="p-hdr-t">${title}</div>
+    ${sub?`<div class="p-hdr-s">${sub}</div>`:""}
+  </div>`;
+}
+
+function legendHTML(){
+  return`<div class="legend">เกณฑ์แปลผล: ≥80% แนะนำให้รับ | 60–79% พิจารณาเพิ่มเติม | &lt;60% ไม่แนะนำให้รับ</div>`;
+}
+
+function doPrint(mode){
+  cm("print-m");
+  if(mode==="attend"){doPrintAttend();return;}
+  const sigMgrs=(mode==="sum-one"||mode==="indiv-one")?mgrs.filter(m=>m.id===curMid):mgrs;
+  const pd=document.getElementById("print-doc");
+
+  if(mode==="sum-all"||mode==="sum-one"){
+    const filtR=mode==="sum-one"?allRecs.filter(r=>r.mgrId===curMid):allRecs;
+    const rows=cands.map(c=>{
+      const recs=filtR.filter(r=>String(r.candId)===String(c.id));if(!recs.length)return null;
+      const avgK=k=>+(recs.reduce((s,r)=>s+(r.scores?.[k]||0),0)/recs.length).toFixed(1);
+      const tot=+(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+      const pct=Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+      return{c,sc:Object.fromEntries(CR.map(cr=>[cr.k,avgK(cr.k)])),tot,pct};
+    }).filter(Boolean).sort((a,b)=>a.c.seq-b.c.seq);
+
+    pd.innerHTML=`<div class="ph">
+      ${hdrHTML("MED UP Interview — สรุปผลการสัมภาษณ์",
+        `วันที่: ${fmtD(ses.date)}&nbsp;&nbsp;|&nbsp;&nbsp;ตำแหน่ง: ${ses.positions.join(", ")}&nbsp;&nbsp;|&nbsp;&nbsp;จำนวนรับ: ${ses.quota} คน`)}
+      <table>
+        <thead><tr>
+          <th style="width:5%">#</th>
+          <th style="width:22%">ชื่อผู้สมัคร</th>
+          <th style="width:14%">ตำแหน่ง</th>
+          ${CR.map(c=>`<th style="width:5%;text-align:center">${c.k}</th>`).join("")}
+          <th style="width:7%;text-align:center">รวม</th>
+          <th style="width:5%;text-align:center">%</th>
+          <th style="width:16%">ผลการพิจารณา</th>
+        </tr></thead>
+        <tbody>${rows.map((r,i)=>{
+          const res=gRes(r.pct);
+          return`<tr>
+            <td style="text-align:center;color:#94a3b8">${r.c.seq}</td>
+            <td style="font-weight:700">${r.c.name}</td>
+            <td>${r.c.position||"-"}</td>
+            ${CR.map(c=>`<td style="text-align:center;font-weight:700;color:${SC[Math.round(r.sc[c.k])]||"#94a3b8"}">${r.sc[c.k]}</td>`).join("")}
+            <td style="text-align:center;font-weight:800">${r.tot}/30</td>
+            <td style="text-align:center">${r.pct}%</td>
+            <td class="result-badge" style="color:${res.co}">${res.ic} ${res.lb}</td>
+          </tr>`;
+        }).join("")}</tbody>
+      </table>
+      ${legendHTML()}
+      ${sigHTML(sigMgrs)}
+    </div>`;
+  }
+
+  else if(mode==="indiv-all"||mode==="indiv-one"){
+    const list=mode==="indiv-one"?cands.filter(c=>c.id===curCid):cands.filter(c=>allRecs.some(r=>String(r.candId)===String(c.id)));
+    pd.innerHTML=list.map((cand,ci)=>{
+      const rec=getRec(cand.id,curMid)||allRecs.find(r=>String(r.candId)===String(cand.id))||null;
+      const sc=rec?.scores||fSc;
+      const rm=rec?.remarks||fRm;
+      const tot=Object.values(sc).reduce((a,b)=>a+b,0);
+      const pct=Math.round(tot/30*100);const res=gRes(pct);
+      return`<div class="ph">
+        ${hdrHTML("MED UP Interview Assessment — ใบประเมินสัมภาษณ์",
+          `ใบที่ ${ci+1}/${list.length}`)}
+        <div class="info-box">
+          <div class="cand-name-big">${cand.name}</div>
+          <div class="cand-info-row">ตำแหน่ง: <b>${cand.position||"-"}</b>&emsp;วันที่: <b>${fmtD(rec?.interviewDate||ses.date)}</b>&emsp;กรรมการ: <b>${rec?.interviewer||mDis(mgrs.find(m=>m.id===curMid)||mgrs[0])}</b></div>
+        </div>
+        <table>
+          <thead><tr>
+            <th style="width:4%">#</th>
+            <th style="width:32%">ค่านิยม / วัฒนธรรม</th>
+            <th style="width:6%;text-align:center">1</th>
+            <th style="width:6%;text-align:center">2</th>
+            <th style="width:6%;text-align:center">3</th>
+            <th style="width:6%;text-align:center">4</th>
+            <th style="width:6%;text-align:center">5</th>
+            <th style="width:6%;text-align:center">คะแนน</th>
+            <th style="width:12%;text-align:center">ระดับ</th>
+            <th>หมายเหตุ</th>
+          </tr></thead>
+          <tbody>
+            ${CR.map((c,ci2)=>{
+              const sv=sc[c.k]||3;
+              return`<tr>
+                <td style="text-align:center;color:#94a3b8">${ci2+1}</td>
+                <td style="font-weight:700">(${c.k}) ${c.lb}</td>
+                ${[1,2,3,4,5].map(v=>`<td style="text-align:center">
+                  <span class="${sv===v?"score-dot-on":"score-dot-off"}" style="${sv===v?`color:${SC[sv]}`:""}">●</span>
+                </td>`).join("")}
+                <td style="text-align:center;font-weight:800;color:${SC[sv]};font-size:13pt">${sv}</td>
+                <td style="text-align:center;font-weight:700;color:${SC[sv]}">${SL[sv]}</td>
+                <td style="font-size:9pt;color:#475569">${rm[c.k]||""}</td>
+              </tr>`;
+            }).join("")}
+            <tr class="total-row">
+              <td colspan="2" style="text-align:right;padding-right:4mm">คะแนนรวม</td>
+              <td colspan="5"></td>
+              <td style="text-align:center;font-size:15pt;color:${res.co}">${tot}</td>
+              <td colspan="2">
+                <span class="result-badge" style="color:${res.co}">${pct}% ${res.ic} ${res.lb}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        ${legendHTML()}
+        ${sigHTML(sigMgrs)}
+      </div>`;
+    }).join("");
+  }
+
+  else if(mode==="accept"){
+    const ranked=cands.map(c=>{
+      const recs=allRecs.filter(r=>String(r.candId)===String(c.id));if(!recs.length)return null;
+      const avg=+(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+      const pct=Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+      return{c,avg,pct,st:accState[c.id]||"none"};
+    }).filter(Boolean).sort((a,b)=>b.avg-a.avg);
+    const mains=ranked.filter(r=>r.st==="main");
+    const reserves=ranked.filter(r=>r.st==="reserve");
+    pd.innerHTML=`<div class="ph">
+      ${hdrHTML("สรุปการรับเข้าทำงาน — คณะแพทยศาสตร์ ม.พะเยา",
+        `วันที่: ${fmtD(ses.date)}&nbsp;&nbsp;|&nbsp;&nbsp;ตำแหน่ง: ${ses.positions.join(", ")}`)}
+      <div class="section-title" style="color:#16a34a">รายชื่อผู้รับเข้าทำงาน (ลำดับหลัก)</div>
+      <table>
+        <thead><tr><th style="width:8%">ลำดับ</th><th>ชื่อผู้สมัคร</th><th style="width:22%">ตำแหน่ง</th><th style="width:15%;text-align:center">คะแนนเฉลี่ย</th><th style="width:18%">ผล</th></tr></thead>
+        <tbody>${mains.length?mains.map((r,i)=>{const res=gRes(r.pct);return`<tr class="accept-main-row"><td style="text-align:center;font-weight:800;color:#16a34a">${i+1}</td><td style="font-weight:700">${r.c.name}</td><td>${r.c.position||""}</td><td style="text-align:center;font-weight:800;color:#0369a1">${r.avg}/30</td><td class="result-badge" style="color:${res.co}">${r.pct}% ${res.ic}</td></tr>`;}).join(""):`<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:4mm">ยังไม่ได้เลือก</td></tr>`}</tbody>
+      </table>
+      <div class="section-title" style="color:#d97706;margin-top:4mm">รายชื่อสำรอง</div>
+      <table>
+        <thead><tr><th style="width:8%">สำรอง</th><th>ชื่อผู้สมัคร</th><th style="width:22%">ตำแหน่ง</th><th style="width:15%;text-align:center">คะแนนเฉลี่ย</th><th style="width:18%">ผล</th></tr></thead>
+        <tbody>${reserves.length?reserves.map((r,i)=>{const res=gRes(r.pct);return`<tr class="accept-res-row"><td style="text-align:center;font-weight:800;color:#d97706">ส.${i+1}</td><td style="font-weight:700">${r.c.name}</td><td>${r.c.position||""}</td><td style="text-align:center;font-weight:800;color:#0369a1">${r.avg}/30</td><td class="result-badge" style="color:${res.co}">${r.pct}% ${res.ic}</td></tr>`;}).join(""):`<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:4mm">ยังไม่ได้เลือก</td></tr>`}</tbody>
+      </table>
+      ${sigHTML(mgrs)}
+    </div>`;
+  }
+
+  // trigger print
+  setTimeout(()=>{ window.print(); },150);
+}
+
+// ── Attendance print ──
+function doPrintAttend(){
+  const pd=document.getElementById("print-doc");
+  const rows=cands.map(c=>{
+    const att=c.attended;
+    const st=att===true?"✅ มาสัมภาษณ์":att===false?"❌ ไม่มา":"○ ยังไม่ระบุ";
+    const bg=att===true?"#f0fdf4":att===false?"#fef2f2":"";
+    return{c,st,bg};
+  });
+  pd.innerHTML=`<div class="ph">
+    ${hdrHTML("รายชื่อผู้สมัคร — เช็คชื่อเข้าสัมภาษณ์",
+      `วันที่: ${fmtD(ses.date)}&nbsp;&nbsp;|&nbsp;&nbsp;ตำแหน่ง: ${ses.positions.join(", ")}`)}
+    <table>
+      <thead><tr>
+        <th style="width:6%;text-align:center">#</th>
+        <th>ชื่อ-สกุล</th>
+        <th style="width:22%">ตำแหน่ง</th>
+        <th style="width:20%;text-align:center">สถานะการเข้าสัมภาษณ์</th>
+        <th style="width:24%">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>${rows.map(r=>`<tr style="${r.bg?"background:"+r.bg+"!important;-webkit-print-color-adjust:exact;print-color-adjust:exact":""}">
+        <td style="text-align:center;color:#94a3b8;font-weight:700">${r.c.seq}</td>
+        <td style="font-weight:700">${r.c.name}</td>
+        <td>${r.c.position||"-"}</td>
+        <td style="text-align:center;font-weight:700;color:${r.c.attended===true?"#16a34a":r.c.attended===false?"#dc2626":"#94a3b8"}">${r.st}</td>
+        <td></td>
+      </tr>`).join("")}</tbody>
+    </table>
+    <div class="legend" style="margin-top:4mm">ทั้งหมด ${cands.length} คน &nbsp;|&nbsp; มา: ${cands.filter(c=>c.attended===true).length} คน &nbsp;|&nbsp; ไม่มา: ${cands.filter(c=>c.attended===false).length} คน &nbsp;|&nbsp; ยังไม่ระบุ: ${cands.filter(c=>c.attended===undefined||c.attended===null).length} คน</div>
+    ${sigHTML(mgrs)}
+  </div>`;
+  setTimeout(()=>window.print(),150);
+}
+
+// ══════════════════════════════════════════════════════
+//  SHEET
+// ══════════════════════════════════════════════════════
+function connectSheet(){
+  const u=document.getElementById("sh-url").value.trim();
+  if(!u.startsWith("https://")){toast("URL ต้องขึ้นต้น https://","warn");return;}
+  sheetUrl=u;sheetReady=true;
+  document.getElementById("sh-ban").style.display="none";
+  document.getElementById("sh-ok").style.display="flex";
+  loadSheet();toast("เชื่อม Google Sheets แล้ว","ok");
+}
+function disconnSheet(){
+  sheetReady=false;sheetUrl="";
+  document.getElementById("sh-ban").style.display="flex";
+  document.getElementById("sh-ok").style.display="none";
+}
+async function loadSheet(){
+  if(!sheetReady)return;
+  try{
+    const res=await fetch(sheetUrl,{mode:"cors"});
+    const data=await res.json();
+    if(Array.isArray(data)){
+      data.forEach(r=>{
+        const ex=allRecs.findIndex(x=>String(x.candId)===String(r.candId)&&String(x.mgrId)===String(r.mgrId));
+        if(ex>=0)allRecs[ex]=r;else allRecs.push(r);
+      });
+      renderCands();
+      if(document.getElementById("page-summary").classList.contains("on"))renderSum();
+      toast(`โหลด ${data.length} รายการจาก Sheets แล้ว`,"ok");
+    }
+  }catch(e){console.error(e);toast("โหลดไม่สำเร็จ: "+e.message,"warn");}
+}
+
+// ══════════════════════════════════════════════════════
+//  DELETE CANDIDATE (requires admin PIN)
+// ══════════════════════════════════════════════════════
+let pendingDelCandId=null;
+function reqDelCand(id){
+  const c=cands.find(x=>x.id===id);if(!c)return;
+  pendingDelCandId=id;
+  document.getElementById("del-cand-name").textContent=`"${c.name}"`;
+  document.getElementById("del-cand-pin").value="";
+  om("del-cand-m");
+  setTimeout(()=>document.getElementById("del-cand-pin").focus(),100);
+}
+function confirmDelCand(){
+  const pin=document.getElementById("del-cand-pin").value;
+  if(pin!==ADMIN_PASS){
+    document.getElementById("del-cand-pin").value="";
+    toast("รหัสผ่านไม่ถูกต้อง","warn");return;
+  }
+  if(!pendingDelCandId){cm("del-cand-m");return;}
+  const c=cands.find(x=>x.id===pendingDelCandId);
+  cands=cands.filter(x=>x.id!==pendingDelCandId);
+  allRecs=allRecs.filter(r=>String(r.candId)!==String(pendingDelCandId));
+  if(curCid===pendingDelCandId){curCid=null;document.getElementById("fn").value="";}
+  pendingDelCandId=null;
+  cm("del-cand-m");
+  renderCands();
+  toast(`ลบ "${c?.name||""}" แล้ว`,"ok");
+}
+
+// ══════════════════════════════════════════════════════
+//  ATTENDANCE
+// ══════════════════════════════════════════════════════
+function renderAttend(){
+  const tbl=document.getElementById("attend-tbl");
+  if(!cands.length){tbl.innerHTML=`<tr><td class="empty" colspan="5">ยังไม่มีรายชื่อผู้สมัคร</td></tr>`;return;}
+  tbl.innerHTML=`<thead><tr>
+    <th style="width:6%;text-align:center">#</th>
+    <th>ชื่อ-สกุล</th>
+    <th style="width:20%">ตำแหน่ง</th>
+    <th style="width:14%;text-align:center">สถานะ</th>
+    <th style="width:22%;text-align:center">เปลี่ยนสถานะ</th>
+  </tr></thead>
+  <tbody>${cands.map(c=>{
+    const att=c.attended;
+    const label=att===true?`<span style="color:var(--gn);font-weight:700">✅ มาสัมภาษณ์</span>`
+      :att===false?`<span style="color:var(--rd);font-weight:700">❌ ไม่มา</span>`
+      :`<span style="color:var(--g400)">○ ยังไม่ระบุ</span>`;
+    const rowBg=att===true?"background:#f0fdf4":att===false?"background:#fef2f2":"";
+    return`<tr style="${rowBg}">
+      <td style="text-align:center;color:var(--g400);font-weight:700">${c.seq}</td>
+      <td style="font-weight:600">${c.name}</td>
+      <td>${c.position||"-"}</td>
+      <td style="text-align:center">${label}</td>
+      <td style="text-align:center">
+        <div style="display:flex;gap:5px;justify-content:center">
+          <button onclick="setAttend(${c.id},true)"
+            style="padding:4px 10px;border-radius:6px;border:1.5px solid #86efac;background:${att===true?"var(--gn)":"#fff"};color:${att===true?"#fff":"var(--gn)"};font-weight:700;font-size:11px;cursor:pointer">มา</button>
+          <button onclick="setAttend(${c.id},false)"
+            style="padding:4px 10px;border-radius:6px;border:1.5px solid #fca5a5;background:${att===false?"var(--rd)":"#fff"};color:${att===false?"#fff":"var(--rd)"};font-weight:700;font-size:11px;cursor:pointer">ไม่มา</button>
+          <button onclick="setAttend(${c.id},null)"
+            style="padding:4px 10px;border-radius:6px;border:1.5px solid var(--g200);background:${att===undefined||att===null?"var(--g400)":"#fff"};color:${att===undefined||att===null?"#fff":"var(--g400)"};font-weight:700;font-size:11px;cursor:pointer">ล้าง</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join("")}</tbody>`;
+}
+function setAttend(id,val){
+  const c=cands.find(x=>x.id===id);
+  if(!c)return;
+  c.attended=val===null?undefined:val;
+  renderAttend();renderCands();
+}
+
+function sw(p){
+  document.querySelectorAll(".page").forEach(e=>e.classList.remove("on"));
+  document.getElementById("page-"+p).classList.add("on");
+  document.querySelectorAll(".nbtn").forEach(b=>b.classList.remove("on"));
+  document.getElementById("nav-"+p).classList.add("on");
+  if(p==="summary")renderSum();
+  if(p==="accept")renderAccept();
+  if(p==="mgr")renderMgrs();
+  if(p==="attend")renderAttend();
+}
+
+// ══════════════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════════════
+function reqAdmin(page){
+  if(adminUnlocked){sw(page);return;}
+  pendingPage=page;
+  document.getElementById("admin-pin").value="";
+  document.getElementById("admin-lock").classList.add("open");
+  setTimeout(()=>document.getElementById("admin-pin").focus(),100);
+}
+function chkAdmin(){
+  if(document.getElementById("admin-pin").value===ADMIN_PASS){
+    adminUnlocked=true;
+    document.getElementById("admin-lock").classList.remove("open");
+    if(pendingPage)sw(pendingPage);
+  }else{document.getElementById("admin-pin").value="";toast("รหัสผ่านไม่ถูกต้อง","warn");}
+}
+function cancelAdmin(){document.getElementById("admin-lock").classList.remove("open");pendingPage=null;}
+
+// ══════════════════════════════════════════════════════
+//  MODAL / TOAST / CONFIRM
+// ══════════════════════════════════════════════════════
+function om(id){document.getElementById(id).classList.add("open");}
+function cm(id){document.getElementById(id).classList.remove("open");}
+function toast(msg,type){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.className="";
+  if(type==="ok")t.classList.add("ok");
+  else if(type==="warn")t.classList.add("warn");
+  t.classList.add("show");clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove("show"),3500);
+}
+function cfm(msg,cb){
+  document.getElementById("cfm-msg").textContent=msg;cfmCb=cb;
+  document.getElementById("cfm-ok").onclick=()=>{cm("cfm-m");if(cfmCb)cfmCb();};
+  om("cfm-m");
+}
+
+// ══════════════════════════════════════════════════════
+//  APPS SCRIPT
+// ══════════════════════════════════════════════════════
+const GS=`var SHEET_ID = 'YOUR_SHEET_ID_HERE';
+function doPost(e) {
+  try {
+    var ss=SpreadsheetApp.openById(SHEET_ID);
+    var data=JSON.parse(e.postData.contents);
+    var mgrName=(data.interviewer||'Unknown').replace(/[\\/:\\?*[\\]]/g,'_');
+    var ivSheet=ss.getSheetByName(mgrName);
+    if(!ivSheet){
+      ivSheet=ss.insertSheet(mgrName);
+      var h1=['Date','Candidate','Position','M','E','D','U','P','C','Total','%','Result',
+              'NoteM','NoteE','NoteD','NoteU','NoteP','NoteC','candId','mgrId'];
+      ivSheet.appendRow(h1);
+      ivSheet.getRange(1,1,1,h1.length).setFontWeight('bold').setBackground('#0369a1').setFontColor('#fff');
+    }
+    var ex=ivSheet.getDataRange().getValues(),ri=-1;
+    for(var i=1;i<ex.length;i++){if(String(ex[i][18])==String(data.candId)&&String(ex[i][19])==String(data.mgrId)){ri=i+1;break;}}
+    var row=[data.interviewDate,data.candidateName,data.position,
+      data.scores.M,data.scores.E,data.scores.D,data.scores.U,data.scores.P,data.scores.C,
+      data.total,data.pct+'%',data.result,
+      (data.remarks&&data.remarks.M)||'',(data.remarks&&data.remarks.E)||'',
+      (data.remarks&&data.remarks.D)||'',(data.remarks&&data.remarks.U)||'',
+      (data.remarks&&data.remarks.P)||'',(data.remarks&&data.remarks.C)||'',
+      data.candId,data.mgrId];
+    if(ri>0)ivSheet.getRange(ri,1,1,row.length).setValues([row]);
+    else ivSheet.appendRow(row);
+    var sumSheet=ss.getSheetByName('Summary');
+    if(!sumSheet){
+      sumSheet=ss.insertSheet('Summary');ss.setActiveSheet(sumSheet);ss.moveActiveSheet(1);
+      sumSheet.appendRow(['Date','Candidate','Position','Interviewer','M','E','D','U','P','C','Total','%','Result','candId','mgrId']);
+      sumSheet.getRange(1,1,1,15).setFontWeight('bold').setBackground('#0c4a6e').setFontColor('#fff');
+    }
+    var s2=sumSheet.getDataRange().getValues(),si=-1;
+    for(var j=1;j<s2.length;j++){if(String(s2[j][13])==String(data.candId)&&String(s2[j][14])==String(data.mgrId)){si=j+1;break;}}
+    var srow=[data.interviewDate,data.candidateName,data.position,data.interviewer,
+      data.scores.M,data.scores.E,data.scores.D,data.scores.U,data.scores.P,data.scores.C,
+      data.total,data.pct+'%',data.result,data.candId,data.mgrId];
+    if(si>0)sumSheet.getRange(si,1,1,srow.length).setValues([srow]);
+    else sumSheet.appendRow(srow);
+    return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
+  }catch(err){
+    return ContentService.createTextOutput(JSON.stringify({status:'error',message:err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+function doGet(e) {
+  try {
+    var ss=SpreadsheetApp.openById(SHEET_ID);
+    var sheet=ss.getSheetByName('Summary');
+    if(!sheet||sheet.getLastRow()<2)
+      return ContentService.createTextOutput(JSON.stringify([])).setMimeType(ContentService.MimeType.JSON);
+    var rows=sheet.getDataRange().getValues(),headers=rows[0];
+    var records=rows.slice(1).map(function(r){
+      var o={};headers.forEach(function(h,i){o[h]=r[i];});
+      return{candId:o.candId,mgrId:o.mgrId,
+        interviewDate:String(o.Date||''),candidateName:String(o.Candidate||''),
+        position:String(o.Position||''),interviewer:String(o.Interviewer||''),
+        scores:{M:+o.M||0,E:+o.E||0,D:+o.D||0,U:+o.U||0,P:+o.P||0,C:+o.C||0},
+        total:+o.Total||0,pct:parseInt(o['%'])||0,result:String(o.Result||'')};
+    });
+    return ContentService.createTextOutput(JSON.stringify(records)).setMimeType(ContentService.MimeType.JSON);
+  }catch(err){
+    return ContentService.createTextOutput(JSON.stringify({error:err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+function showGSCode(){document.getElementById("gs-disp").textContent=GS;}
+function cpGS(){
+  navigator.clipboard.writeText(GS);
+  const b=document.getElementById("btn-cpgs");
+  b.textContent="✅ Copied!";setTimeout(()=>b.textContent="📋 Copy โค้ด",2000);
+}
+
+// ══════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════
+function dlFile(content,filename){
+  const blob=new Blob(["\uFEFF"+content],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+}
+</script>
+</body>
+</html>

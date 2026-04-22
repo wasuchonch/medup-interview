@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MED UP Interview System — คณะแพทยศาสตร์ ม.พะเยา</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<!-- jsPDF with autotable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0369a1;--blue-dark:#0c4a6e;--blue-light:#e0f2fe;
+  --green:#16a34a;--amber:#d97706;--red:#dc2626;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
+  --gray-400:#94a3b8;--gray-600:#475569;--gray-800:#1e293b;
+  --shadow:0 1px 6px rgba(0,0,0,.06);
+}
+body{font-family:'Sarabun',sans-serif;background:#f0f9ff;color:var(--gray-800);min-height:100vh;display:flex;flex-direction:column}
+input,select,textarea,button{font-family:inherit}
+button{cursor:pointer}
+a{color:var(--blue);text-decoration:none}
+
+/* ── Topbar ── */
+#topbar{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 55%,#0ea5e9 100%);box-shadow:0 2px 16px rgba(0,0,0,.15);position:sticky;top:0;z-index:200;flex-shrink:0}
+#tb-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:58px;padding:0 16px;gap:10px}
+.logo-box{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.logo-icon{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo-title{color:#fff;font-weight:800;font-size:13px;line-height:1.2}
+.logo-sub{color:#7dd3fc;font-size:9px}
+.nav-tabs{display:flex;gap:3px;margin-left:auto}
+.nav-btn{background:transparent;color:#bae6fd;border:none;border-radius:7px;padding:6px 13px;font-weight:700;font-size:11px;transition:all .2s;white-space:nowrap}
+.nav-btn.active{background:#fff;color:var(--blue)}
+.tb-iv-label{color:#bae6fd;font-size:11px;white-space:nowrap;flex-shrink:0}
+.tb-iv-select{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:7px;padding:4px 9px;font-size:11px;font-weight:600;outline:none;max-width:170px}
+.tb-iv-select option{background:#0c4a6e}
+
+/* ── Session bar ── */
+#session-bar{background:#fff;border-bottom:1.5px solid var(--gray-200);padding:7px 16px;flex-shrink:0}
+#sb-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sb-label{font-size:11px;font-weight:700;color:var(--blue);white-space:nowrap}
+.sb-field{display:flex;align-items:center;gap:5px}
+.sb-field label{font-size:11px;color:var(--gray-600);white-space:nowrap}
+.sb-input{border:1.5px solid var(--gray-200);border-radius:7px;padding:4px 9px;font-size:11px;outline:none}
+.sb-input:focus{border-color:var(--blue)}
+#positions-list{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pos-tag{display:flex;align-items:center;gap:4px;background:var(--blue-light);color:var(--blue);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
+.pos-tag button{background:none;border:none;color:var(--blue);font-size:13px;line-height:1;padding:0 0 0 2px}
+.btn-add-pos{background:var(--blue);color:#fff;border:none;border-radius:7px;padding:3px 10px;font-size:11px;font-weight:700}
+
+/* ── Sheet banner ── */
+#sheet-banner,#sheet-ok{padding:7px 16px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;flex-shrink:0}
+#sheet-banner{background:#fefce8;border-bottom:1px solid #fde68a}
+#sheet-ok{background:#f0fdf4;border-bottom:1px solid #86efac;display:none}
+.ban-text{font-size:11px;color:#92400e}
+.ban-input{flex:1;min-width:220px;border:1px solid #fcd34d;border-radius:6px;padding:4px 9px;font-size:11px;outline:none}
+.btn-connect{background:#f59e0b;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-weight:700;font-size:11px}
+.btn-guide-link{background:none;border:1px solid #fcd34d;border-radius:6px;padding:4px 10px;font-weight:600;color:#b45309;font-size:11px}
+.ok-text{font-size:11px;color:#15803d;font-weight:600}
+.btn-text{background:none;border:none;font-size:11px;font-weight:700;cursor:pointer}
+
+/* ── Main layout ── */
+#main-layout{display:flex;flex:1;max-width:1280px;width:100%;margin:0 auto;min-height:0}
+
+/* ── Sidebar ── */
+#sidebar{width:260px;flex-shrink:0;background:#fff;border-right:1.5px solid var(--gray-200);display:flex;flex-direction:column;overflow:hidden}
+#sidebar-head{padding:12px 14px;border-bottom:1px solid var(--gray-200);flex-shrink:0}
+.sid-title{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px}
+.sid-search{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:6px 10px;font-size:12px;outline:none}
+.sid-search:focus{border-color:var(--blue)}
+.sid-actions{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.btn-sm{padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;border:none;white-space:nowrap}
+.btn-sm-blue{background:var(--blue);color:#fff}
+.btn-sm-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)!important;border:none}
+.btn-sm-red{background:#fef2f2;color:var(--red);border:1.5px solid #fca5a5}
+#candidate-list{flex:1;overflow-y:auto;padding:8px}
+.cand-item{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:9px;cursor:pointer;margin-bottom:3px;transition:all .15s;border:1.5px solid transparent}
+.cand-item:hover{background:var(--gray-50)}
+.cand-item.selected{background:var(--blue-light);border-color:var(--blue)}
+.cand-item.done{border-left:3px solid var(--green)}
+.cand-item.undone{border-left:3px solid var(--gray-200)}
+.cand-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.cand-num.done{background:#dcfce7;color:var(--green)}
+.cand-num.undone{background:var(--gray-100);color:var(--gray-600)}
+.cand-info{flex:1;min-width:0}
+.cand-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cand-pos{font-size:10px;color:var(--gray-400)}
+.cand-score{font-size:10px;font-weight:700}
+#sidebar-foot{padding:8px 14px;border-top:1px solid var(--gray-200);flex-shrink:0}
+.sid-stat{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-600)}
+
+/* ── Content area ── */
+#content-area{flex:1;overflow-y:auto;padding:18px 16px;min-width:0}
+
+/* ── Pages ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── Cards ── */
+.card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:13px;box-shadow:var(--shadow)}
+.card-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:13px}
+
+/* ── Form grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:11px 18px}
+.full{grid-column:1/-1}
+.lbl{display:block;font-size:11px;font-weight:600;color:var(--gray-600);margin-bottom:4px}
+.inp{width:100%;border:1.5px solid var(--gray-200);border-radius:9px;padding:8px 12px;font-size:13px;outline:none;transition:border .2s}
+.inp:focus{border-color:var(--blue)}
+.inp[readonly]{background:var(--gray-50);color:var(--gray-600)}
+select.inp option{background:#fff;color:var(--gray-800)}
+
+/* ── Score cards ── */
+.sc-card{background:#fff;border-radius:12px;padding:13px 18px;margin-bottom:9px;box-shadow:var(--shadow);border-left:4px solid var(--gray-200);transition:border-color .2s}
+.sc-head{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.sc-emoji{font-size:17px}
+.sc-name{font-weight:700;font-size:13px}
+.sc-sub{font-size:10px;color:var(--gray-400)}
+.sc-btns{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.scbtn{width:38px;height:38px;border-radius:9px;border:2px solid var(--gray-200);background:var(--gray-50);color:var(--gray-600);font-weight:700;font-size:14px;transition:all .15s}
+.scbtn.on{color:#fff}
+.sc-level{font-size:11px;font-weight:600;margin-left:3px}
+.sc-remark{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:7px 11px;font-size:12px;outline:none;resize:none;height:38px;overflow:hidden;transition:border .2s}
+.sc-remark:focus{border-color:var(--blue);height:64px}
+
+/* ── Summary strip ── */
+.sum-strip{border-radius:14px;padding:18px 20px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border:2px solid var(--gray-200)}
+.sum-big{font-size:38px;font-weight:800;line-height:1}
+.sum-pct{font-size:16px;font-weight:700;margin-top:5px}
+.sum-actions{display:flex;flex-direction:column;gap:8px}
+.btn-save{background:var(--blue);color:#fff;border:none;border-radius:11px;padding:11px 24px;font-weight:700;font-size:14px;box-shadow:0 3px 12px rgba(3,105,161,.35);transition:all .2s}
+.btn-save:disabled{background:var(--gray-400);box-shadow:none;cursor:not-allowed}
+.btn-save.saved{background:#059669}
+.btn-export{background:#fff;color:var(--blue);border:2px solid var(--blue);border-radius:11px;padding:9px 24px;font-weight:700;font-size:13px}
+
+/* ── Summary page ── */
+.filter-row{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap;align-items:center}
+.fbtn{padding:5px 12px;border-radius:18px;border:1.5px solid var(--gray-200);background:#fff;color:var(--gray-600);font-weight:600;font-size:11px;transition:all .2s}
+.fbtn.on{border-color:var(--blue);background:var(--blue);color:#fff}
+.search-box{border:1.5px solid var(--gray-200);border-radius:8px;padding:6px 11px;font-size:12px;outline:none;width:200px}
+.search-box:focus{border-color:var(--blue)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:8px 9px;text-align:left;font-size:11px;font-weight:700;color:var(--gray-600);background:var(--gray-100);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{background:var(--gray-200)}
+th .sort-icon{margin-left:3px;color:var(--gray-400)}
+td{padding:7px 9px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+tr:hover td{background:var(--gray-50)}
+.badge{display:inline-block;padding:2px 8px;border-radius:18px;font-weight:600;font-size:10px;white-space:nowrap}
+
+/* ── Acceptance summary ── */
+.accept-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--gray-50);border:1.5px solid var(--gray-200);margin-bottom:7px;font-size:13px}
+.accept-rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+.accept-main{background:#dcfce7;color:var(--green)}
+.accept-reserve{background:#fef9c3;color:#92400e}
+.accept-name{flex:1;font-weight:600}
+.accept-score{font-weight:700;color:var(--blue)}
+.accept-result{font-size:11px}
+
+/* ── Managers page ── */
+.mgr-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--gray-50);border:1.5px solid var(--gray-200);margin-bottom:7px;font-size:13px}
+.mgr-info{flex:1}
+.mgr-name{font-weight:600}
+.mgr-pos{font-size:11px;color:var(--gray-400)}
+.mgr-del{background:none;border:none;color:var(--gray-400);font-size:18px;padding:0 4px}
+.mgr-del:hover{color:var(--red)}
+
+/* ── Modal ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:4000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-bg.open{display:flex}
+.modal-box{background:#fff;border-radius:18px;max-width:700px;width:100%;max-height:92vh;overflow-y:auto;padding:26px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.modal-title{font-size:16px;font-weight:700;color:var(--blue)}
+.modal-close{background:none;border:none;font-size:26px;color:var(--gray-400);line-height:1}
+.guide-steps{background:var(--blue-light);border-radius:11px;padding:13px 16px;margin-bottom:13px;font-size:12px;line-height:2.3}
+.guide-warn{background:#fef2f2;border-radius:9px;padding:9px 13px;margin-bottom:11px;font-size:11px;color:var(--red)}
+pre.codeblock{background:#0f172a;color:#e2e8f0;border-radius:11px;padding:14px;font-size:9.5px;overflow-x:auto;line-height:1.7;white-space:pre-wrap;word-break:break-all;max-height:300px}
+.btn-copy-code{margin-top:9px;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:9px 22px;font-weight:700;font-size:12px}
+
+/* ── Print selector modal ── */
+#print-modal .modal-box{max-width:420px}
+.print-opt{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:10px;background:var(--gray-50);border:1.5px solid var(--gray-200);margin-bottom:8px;cursor:pointer;transition:all .2s}
+.print-opt:hover{border-color:var(--blue);background:var(--blue-light)}
+.print-opt-icon{font-size:22px}
+.print-opt-title{font-size:13px;font-weight:700}
+.print-opt-sub{font-size:11px;color:var(--gray-400)}
+
+/* ── Toast ── */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--blue-dark);color:#fff;border-radius:11px;padding:11px 20px;font-weight:700;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999;pointer-events:none;max-width:340px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:#059669}
+#toast.warn{background:var(--amber)}
+
+/* ── Confirm modal ── */
+#confirm-modal .modal-box{max-width:380px;text-align:center}
+.confirm-msg{font-size:14px;margin-bottom:20px;line-height:1.7}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+.btn-confirm-ok{background:var(--blue);color:#fff;border:none;border-radius:9px;padding:10px 26px;font-weight:700;font-size:13px}
+.btn-confirm-cancel{background:var(--gray-100);color:var(--gray-800);border:none;border-radius:9px;padding:10px 26px;font-weight:700;font-size:13px}
+
+/* ── Utility ── */
+.flex-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.ml-auto{margin-left:auto}
+.text-gray{color:var(--gray-400)}
+.fw7{font-weight:700}
+.empty-state{text-align:center;padding:40px 20px;color:var(--gray-400);font-size:13px}
+
+/* ── Radar SVG ── */
+#radar-svg{flex-shrink:0}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:10px}
+
+/* ── hidden canvas for Thai text PDF ── */
+#pdf-canvas{position:fixed;top:-9999px;left:-9999px;font-family:'Sarabun',sans-serif}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div id="tb-inner">
+    <div class="logo-box">
+      <div class="logo-icon">🏥</div>
+      <div><div class="logo-title">MED UP Interview</div><div class="logo-sub">คณะแพทยศาสตร์ ม.พะเยา</div></div>
+    </div>
+    <span class="tb-iv-label">ผู้สัมภาษณ์:</span>
+    <select id="tb-iv-sel" class="tb-iv-select" onchange="onIVChange()"></select>
+    <div class="nav-tabs">
+      <button class="nav-btn active" id="nav-score"   onclick="switchPage('score')">📝 ให้คะแนน</button>
+      <button class="nav-btn"        id="nav-summary" onclick="switchPage('summary')">📊 สรุปผล</button>
+      <button class="nav-btn"        id="nav-accept"  onclick="switchPage('accept')">🏆 รับเข้าทำงาน</button>
+      <button class="nav-btn"        id="nav-mgr"     onclick="switchPage('mgr')">👤 จัดการผู้ประเมิน</button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION BAR -->
+<div id="session-bar">
+  <div id="sb-inner">
+    <span class="sb-label">📅 รอบสัมภาษณ์:</span>
+    <div class="sb-field"><label>วันที่</label><input type="date" id="ses-date" class="sb-input" style="width:140px" oninput="syncSes()"/></div>
+    <div class="sb-field">
+      <label>ตำแหน่งที่เปิดรับ:</label>
+      <div id="positions-list"></div>
+      <input id="pos-new-input" class="sb-input" style="width:130px" placeholder="ชื่อตำแหน่ง"/>
+      <button class="btn-add-pos" onclick="addPosition()">+ เพิ่ม</button>
+    </div>
+    <div class="sb-field"><label>จำนวนที่รับ</label><input type="number" id="ses-quota" class="sb-input" style="width:60px" min="0" placeholder="0" oninput="syncSes()"/><span style="font-size:11px;color:var(--gray-600)">คน</span></div>
+  </div>
+</div>
+
+<!-- SHEET BANNER -->
+<div id="sheet-banner">
+  <span class="ban-text">⚠️ ยังไม่เชื่อม Google Sheets</span>
+  <input id="sheet-url-inp" class="ban-input" placeholder="วาง Apps Script Web App URL..."/>
+  <button class="btn-connect" onclick="connectSheet()">เชื่อม</button>
+  <button class="btn-guide-link" onclick="openModal('guide-modal')">📖 วิธีตั้งค่า</button>
+</div>
+<div id="sheet-ok">
+  <span class="ok-text">✅ เชื่อม Google Sheets แล้ว</span>
+  <button class="btn-text" style="color:var(--blue)" onclick="loadFromSheet()">🔄 Refresh</button>
+  <button class="btn-text" style="color:var(--red)"  onclick="disconnectSheet()">ตัดการเชื่อมต่อ</button>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div id="main-layout">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div id="sidebar-head">
+      <div class="sid-title">📋 รายชื่อผู้สมัคร</div>
+      <input class="sid-search" id="cand-search" placeholder="🔍 ค้นหาชื่อ..." oninput="renderCandList()"/>
+      <div class="sid-actions">
+        <button class="btn-sm btn-sm-blue" onclick="showAddCand()">+ เพิ่ม</button>
+        <label class="btn-sm btn-sm-blue" style="display:inline-flex;align-items:center;gap:3px;cursor:pointer">
+          📁 Upload CSV<input type="file" accept=".csv" style="display:none" onchange="uploadCandCSV(event)"/>
+        </label>
+        <button class="btn-sm btn-sm-outline" style="background:#fff;color:var(--blue);border:1.5px solid var(--blue)" onclick="downloadCandTemplate()">⬇ Template</button>
+      </div>
+    </div>
+    <div id="candidate-list"></div>
+    <div id="sidebar-foot">
+      <div class="sid-stat">
+        <span id="stat-total">ทั้งหมด 0 คน</span>
+        <span id="stat-done" style="color:var(--green)">ประเมินแล้ว 0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content-area">
+
+    <!-- ── SCORE PAGE ── -->
+    <div class="page active" id="page-score">
+      <div class="card">
+        <div class="card-title">📋 ข้อมูลผู้สมัคร</div>
+        <div class="grid-2">
+          <div class="full">
+            <label class="lbl">ชื่อ-สกุลผู้สมัคร *</label>
+            <input class="inp" id="f-name" placeholder="กรอกชื่อ-สกุลผู้สมัคร" oninput="onFormChange()"/>
+          </div>
+          <div>
+            <label class="lbl">ตำแหน่งที่สมัคร</label>
+            <select class="inp" id="f-pos" onchange="onFormChange()"><option value="">-- เลือกตำแหน่ง --</option></select>
+          </div>
+          <div>
+            <label class="lbl">วันที่สัมภาษณ์</label>
+            <input class="inp" type="date" id="f-date" oninput="onFormChange()"/>
+          </div>
+          <div>
+            <label class="lbl">กรรมการผู้ประเมิน</label>
+            <input class="inp" id="f-iv" readonly/>
+          </div>
+        </div>
+      </div>
+
+      <div id="criteria-list"></div>
+
+      <div class="sum-strip" id="sum-strip">
+        <div>
+          <div style="font-size:11px;color:var(--gray-600);margin-bottom:2px">คะแนนรวม (6 ด้าน × 5 = 30)</div>
+          <div class="sum-big" id="sum-num">18</div>
+          <div class="sum-pct" id="sum-res">60% ⚠️ พิจารณาเพิ่มเติม</div>
+        </div>
+        <svg id="radar-svg" width="150" height="150" viewBox="0 0 150 150"></svg>
+        <div class="sum-actions">
+          <button class="btn-save" id="btn-save" onclick="saveRecord()">💾 บันทึกคะแนน</button>
+          <button class="btn-export" onclick="openPrintModal()">🖨️ Export / Print PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SUMMARY PAGE ── -->
+    <div class="page" id="page-summary">
+      <div class="card">
+        <div class="flex-row" style="margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div class="card-title" style="margin:0">📊 สรุปผลการสัมภาษณ์</div>
+          <input class="search-box ml-auto" id="sum-search" placeholder="🔍 ค้นหาชื่อผู้สมัคร..." oninput="renderSummary()"/>
+          <button class="btn-export" onclick="openPrintModal()">🖨️ Export PDF</button>
+        </div>
+        <div class="filter-row" id="sum-filter-row"></div>
+        <div class="tbl-wrap"><table id="sum-table"></table></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 คะแนนเฉลี่ยแยกต่อกรรมการ</div>
+        <div class="tbl-wrap"><table id="avg-table"></table></div>
+      </div>
+    </div>
+
+    <!-- ── ACCEPTANCE PAGE ── -->
+    <div class="page" id="page-accept">
+      <div class="card">
+        <div class="flex-row" style="margin-bottom:14px">
+          <div class="card-title" style="margin:0">🏆 สรุปการรับเข้าทำงาน</div>
+          <div class="ml-auto flex-row">
+            <label style="font-size:12px;font-weight:600;color:var(--gray-600)">จำนวนลำดับหลัก</label>
+            <input type="number" id="acc-main-n" class="sb-input" style="width:55px" value="3" min="1" oninput="renderAccept()"/>
+            <label style="font-size:12px;font-weight:600;color:var(--gray-600)">ลำดับสำรอง</label>
+            <input type="number" id="acc-res-n"  class="sb-input" style="width:55px" value="3" min="0" oninput="renderAccept()"/>
+          </div>
+        </div>
+        <div id="accept-list"></div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn-export" onclick="openPrintModal()">🖨️ Print รายชื่อรับเข้า</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MANAGER PAGE ── -->
+    <div class="page" id="page-mgr">
+      <div class="card">
+        <div class="card-title">👤 จัดการผู้ประเมิน (กรรมการ)</div>
+        <div class="flex-row" style="margin-bottom:13px;flex-wrap:wrap;gap:8px">
+          <button class="btn-sm btn-sm-blue" onclick="showAddMgr()">+ เพิ่มกรรมการ</button>
+          <label class="btn-sm btn-sm-blue" style="display:inline-flex;align-items:center;gap:3px;cursor:pointer">
+            📁 Upload CSV<input type="file" accept=".csv" style="display:none" onchange="uploadMgrCSV(event)"/>
+          </label>
+          <button class="btn-sm btn-sm-outline" style="background:#fff;color:var(--blue);border:1.5px solid var(--blue)" onclick="downloadMgrTemplate()">⬇ Template CSV</button>
+        </div>
+        <div id="mgr-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+</div><!-- /main-layout -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MODALS -->
+
+<!-- Add Candidate -->
+<div class="modal-bg" id="add-cand-modal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head"><span class="modal-title">+ เพิ่มผู้สมัคร</span><button class="modal-close" onclick="closeModal('add-cand-modal')">×</button></div>
+    <div style="margin-bottom:11px"><label class="lbl">ชื่อ-สกุล *</label><input class="inp" id="ac-name" placeholder="ชื่อ-สกุลผู้สมัคร"/></div>
+    <div style="margin-bottom:11px"><label class="lbl">ตำแหน่งที่สมัคร</label><select class="inp" id="ac-pos"></select></div>
+    <div style="margin-bottom:16px"><label class="lbl">หมายเหตุ</label><input class="inp" id="ac-note" placeholder="(ไม่บังคับ)"/></div>
+    <div class="flex-row"><button class="btn-save" onclick="confirmAddCand()">เพิ่ม</button><button class="btn-sm btn-sm-outline" style="background:#fff;color:var(--gray-600);border:1.5px solid var(--gray-200)" onclick="closeModal('add-cand-modal')">ยกเลิก</button></div>
+  </div>
+</div>
+
+<!-- Add Manager -->
+<div class="modal-bg" id="add-mgr-modal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head"><span class="modal-title">+ เพิ่มกรรมการ</span><button class="modal-close" onclick="closeModal('add-mgr-modal')">×</button></div>
+    <div style="margin-bottom:11px"><label class="lbl">ชื่อ *</label><input class="inp" id="am-fname" placeholder="ชื่อ"/></div>
+    <div style="margin-bottom:11px"><label class="lbl">นามสกุล *</label><input class="inp" id="am-lname" placeholder="นามสกุล"/></div>
+    <div style="margin-bottom:16px"><label class="lbl">ตำแหน่ง / วุฒิ</label><input class="inp" id="am-title" placeholder="เช่น ผศ.นพ. / รศ.พญ."/></div>
+    <div class="flex-row"><button class="btn-save" onclick="confirmAddMgr()">เพิ่ม</button><button class="btn-sm btn-sm-outline" style="background:#fff;color:var(--gray-600);border:1.5px solid var(--gray-200)" onclick="closeModal('add-mgr-modal')">ยกเลิก</button></div>
+  </div>
+</div>
+
+<!-- Guide Modal -->
+<div class="modal-bg" id="guide-modal">
+  <div class="modal-box">
+    <div class="modal-head"><span class="modal-title">🔗 วิธีตั้งค่า Google Apps Script</span><button class="modal-close" onclick="closeModal('guide-modal')">×</button></div>
+    <div class="guide-steps">
+      <b style="color:var(--blue)">ขั้นตอน:</b><br/>
+      <b>1.</b> เปิด <b>Google Sheets</b> ใหม่ → copy <b>Sheet ID</b> จาก URL (ระหว่าง /d/ และ /edit)<br/>
+      <b>2.</b> <b>Extensions → Apps Script</b> → <span style="color:var(--red)">ลบโค้ดเดิมทั้งหมด</span><br/>
+      <b>3.</b> วางโค้ดด้านล่าง → แก้ <code style="background:var(--blue-light);padding:1px 5px;border-radius:3px">YOUR_SHEET_ID</code><br/>
+      <b>4.</b> กด <b>Deploy → New deployment → Web app</b><br/>
+      <b>5.</b> Execute as: <b>Me</b> | Who has access: <b>Anyone</b> → <b>Deploy</b><br/>
+      <b>6.</b> Copy URL → วางใน Dashboard แล้วกด "เชื่อม"
+    </div>
+    <div class="guide-warn">⚠️ Error บ่อย: ลืมลบโค้ดเดิม / ลืมแก้ Sheet ID / เลือก "Anyone with link" แทน "Anyone"</div>
+    <pre class="codeblock" id="script-code-display"></pre>
+    <button class="btn-copy-code" id="btn-copy-gs" onclick="copyGS()">📋 Copy โค้ด</button>
+  </div>
+</div>
+
+<!-- Print Modal -->
+<div class="modal-bg" id="print-modal">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-head"><span class="modal-title">🖨️ เลือกรูปแบบ Export / Print</span><button class="modal-close" onclick="closeModal('print-modal')">×</button></div>
+    <div class="print-opt" onclick="doPDF('summary')">
+      <div class="print-opt-icon">📊</div>
+      <div><div class="print-opt-title">ตารางสรุปทุกคน (PDF)</div><div class="print-opt-sub">คะแนนทุกคน ทุกกรรมการ + ลงชื่อกรรมการรวม</div></div>
+    </div>
+    <div class="print-opt" onclick="doPDF('individual')">
+      <div class="print-opt-icon">📄</div>
+      <div><div class="print-opt-title">ใบประเมินรายบุคคล — ทุกคน (PDF)</div><div class="print-opt-sub">แต่ละคน 1 หน้า มีลงชื่อกรรมการแต่ละท่าน</div></div>
+    </div>
+    <div class="print-opt" onclick="doPDF('current')">
+      <div class="print-opt-icon">👤</div>
+      <div><div class="print-opt-title">ใบประเมิน — ผู้สมัครที่เลือกอยู่ (PDF)</div><div class="print-opt-sub">เฉพาะคนที่กำลังดูอยู่</div></div>
+    </div>
+    <div class="print-opt" onclick="doPDF('accept')">
+      <div class="print-opt-icon">🏆</div>
+      <div><div class="print-opt-title">รายชื่อรับเข้าทำงาน (PDF)</div><div class="print-opt-sub">ลำดับหลัก + ลำดับสำรอง + ลงชื่อกรรมการรวม</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-bg" id="confirm-modal">
+  <div class="modal-box">
+    <div class="modal-head"><span class="modal-title">ยืนยัน</span><button class="modal-close" onclick="closeModal('confirm-modal')">×</button></div>
+    <div class="confirm-msg" id="confirm-msg"></div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-ok"     id="confirm-ok-btn">ตกลง</button>
+      <button class="btn-confirm-cancel" onclick="closeModal('confirm-modal')">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden canvas for Thai PDF rendering -->
+<canvas id="pdf-canvas" width="1" height="1"></canvas>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  CONSTANTS
+// ════════════════════════════════════════════════════════
+const CRITERIA = [
+  {key:"M",label:"คุณธรรมและความซื่อสัตย์",  emoji:"⚖️", sub:"Moral & Integrity"},
+  {key:"E",label:"การเรียนรู้และพัฒนาองค์กร", emoji:"📚", sub:"Education & Learning"},
+  {key:"D",label:"การบริหารด้วยข้อมูล",        emoji:"📊", sub:"Data Driven"},
+  {key:"U",label:"ความเป็นหนึ่งเดียว",          emoji:"🤝", sub:"Unity"},
+  {key:"P",label:"ความเป็นมืออาชีพ",            emoji:"🎯", sub:"Professionalism"},
+  {key:"C",label:"วัฒนธรรมองค์กร",              emoji:"🌟", sub:"Culture"},
+];
+const SLABELS = {1:"ต้องพัฒนามาก",2:"ต้องพัฒนา",3:"ผ่านเกณฑ์",4:"ดี",5:"ดีเยี่ยม"};
+const SCOLORS = {1:"#ef4444",2:"#f97316",3:"#eab308",4:"#22c55e",5:"#0ea5e9"};
+const RESULTS = [
+  {min:80,label:"แนะนำให้รับ",      icon:"✅",color:"#16a34a",bg:"#f0fdf4",border:"#86efac"},
+  {min:60,label:"พิจารณาเพิ่มเติม", icon:"⚠️",color:"#d97706",bg:"#fffbeb",border:"#fcd34d"},
+  {min:0, label:"ไม่แนะนำให้รับ",   icon:"❌",color:"#dc2626",bg:"#fef2f2",border:"#fca5a5"},
+];
+const getRes = p => RESULTS.find(r=>p>=r.min);
+const todayStr = () => new Date().toISOString().split("T")[0];
+const fmtDate = d => {
+  if(!d) return "";
+  const p = String(d).split("-");
+  return p.length===3 ? `${p[2]}/${p[1]}/${+p[0]+543}` : d;
+};
+const parseCSV = text => {
+  const lines = text.trim().split(/\r?\n/);
+  return lines.slice(1).map(l => l.split(",").map(x=>x.trim().replace(/^"|"$/g,"")));
+};
+
+// ════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════
+let managers    = [
+  {id:1, fname:"สมชาย",  lname:"ใจดี",    title:"ผศ.นพ."},
+  {id:2, fname:"วิภา",   lname:"เจริญสุข",title:"รศ.พญ."},
+  {id:3, fname:"ธีระ",   lname:"มั่นคง",   title:"อ.นพ."},
+];
+let mgrIdSeq    = 4;
+let candidates  = [];   // {id,name,position,note,scores:{},remarks:{},saved:bool,savedAt}
+let candIdSeq   = 1;
+let currentCandId = null;
+let currentMgrId  = managers[0].id;
+let session     = {date:todayStr(), positions:["อาจารย์แพทย์"], quota:0};
+let allRecords  = [];   // flat saved records {candId,mgrId,scores,remarks,total,pct,result,...}
+let sheetUrl    = "";
+let sheetReady  = false;
+let sumSort     = {col:"seq",dir:1};
+let sumFilterIV = "all";
+let confirmCb   = null;
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("ses-date").value = session.date;
+  renderMgrSelect();
+  renderPositions();
+  renderCriteria();
+  updateSummary();
+  renderCandList();
+  renderMgrList();
+  displayGSCode();
+});
+
+// ════════════════════════════════════════════════════════
+//  MANAGERS
+// ════════════════════════════════════════════════════════
+function mgrDisplay(m){ return `${m.title} ${m.fname} ${m.lname}`; }
+function renderMgrSelect(){
+  const sel = document.getElementById("tb-iv-sel");
+  sel.innerHTML = managers.map(m=>`<option value="${m.id}">${mgrDisplay(m)}</option>`).join("");
+  sel.value = currentMgrId;
+  document.getElementById("f-iv").value = mgrDisplay(managers.find(m=>m.id===currentMgrId)||managers[0]);
+}
+function onIVChange(){
+  currentMgrId = +document.getElementById("tb-iv-sel").value;
+  document.getElementById("f-iv").value = mgrDisplay(managers.find(m=>m.id===currentMgrId));
+  // reload form for this candidate+mgr combo
+  if(currentCandId) loadCandToForm(currentCandId);
+}
+function renderMgrList(){
+  const el = document.getElementById("mgr-list");
+  if(!managers.length){ el.innerHTML=`<div class="empty-state">ยังไม่มีกรรมการ</div>`; return; }
+  el.innerHTML = managers.map(m=>`
+    <div class="mgr-item">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0">
+        ${m.fname[0]}
+      </div>
+      <div class="mgr-info">
+        <div class="mgr-name">${mgrDisplay(m)}</div>
+        <div class="mgr-pos">${m.title}</div>
+      </div>
+      <button class="mgr-del" onclick="deleteMgr(${m.id})" title="ลบ">🗑</button>
+    </div>`).join("");
+}
+function showAddMgr(){ openModal("add-mgr-modal"); }
+function confirmAddMgr(){
+  const fn = document.getElementById("am-fname").value.trim();
+  const ln = document.getElementById("am-lname").value.trim();
+  const ti = document.getElementById("am-title").value.trim();
+  if(!fn||!ln){ showToast("กรุณากรอกชื่อและนามสกุล","warn"); return; }
+  managers.push({id:mgrIdSeq++, fname:fn, lname:ln, title:ti||""});
+  closeModal("add-mgr-modal");
+  ["am-fname","am-lname","am-title"].forEach(id=>document.getElementById(id).value="");
+  renderMgrList(); renderMgrSelect();
+  showToast("เพิ่มกรรมการแล้ว","success");
+}
+function deleteMgr(id){
+  showConfirm(`ลบกรรมการ "${mgrDisplay(managers.find(m=>m.id===id))}" ออก?`, ()=>{
+    managers = managers.filter(m=>m.id!==id);
+    if(currentMgrId===id && managers.length){ currentMgrId=managers[0].id; }
+    renderMgrList(); renderMgrSelect();
+  });
+}
+function uploadMgrCSV(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const rows = parseCSV(ev.target.result);
+    rows.forEach(r => {
+      if(r[0]) managers.push({id:mgrIdSeq++, fname:r[0]||"", lname:r[1]||"", title:r[2]||""});
+    });
+    renderMgrList(); renderMgrSelect();
+    showToast(`เพิ่มกรรมการจาก CSV ${rows.length} คน`,"success");
+  };
+  reader.readAsText(file, "UTF-8");
+  e.target.value="";
+}
+function downloadMgrTemplate(){
+  const csv = "ชื่อ,นามสกุล,ตำแหน่ง/วุฒิ\nสมชาย,ใจดี,ผศ.นพ.\nวิภา,เจริญสุข,รศ.พญ.";
+  downloadFile(csv,"mgr_template.csv","text/csv;charset=utf-8;");
+}
+
+// ════════════════════════════════════════════════════════
+//  POSITIONS
+// ════════════════════════════════════════════════════════
+function renderPositions(){
+  const el = document.getElementById("positions-list");
+  el.innerHTML = session.positions.map((p,i)=>`
+    <div class="pos-tag">${p}<button onclick="removePosition(${i})">×</button></div>`).join("");
+  // sync f-pos select
+  const fpos = document.getElementById("f-pos");
+  const cur  = fpos.value;
+  fpos.innerHTML = `<option value="">-- เลือกตำแหน่ง --</option>` +
+    session.positions.map(p=>`<option value="${p}">${p}</option>`).join("");
+  if(session.positions.includes(cur)) fpos.value = cur;
+  // ac-pos
+  const acpos = document.getElementById("ac-pos");
+  if(acpos){
+    acpos.innerHTML = `<option value="">-- เลือกตำแหน่ง --</option>` +
+      session.positions.map(p=>`<option value="${p}">${p}</option>`).join("");
+  }
+}
+function addPosition(){
+  const v = document.getElementById("pos-new-input").value.trim();
+  if(!v || session.positions.includes(v)) return;
+  session.positions.push(v);
+  document.getElementById("pos-new-input").value="";
+  renderPositions();
+}
+function removePosition(i){ session.positions.splice(i,1); renderPositions(); }
+function syncSes(){
+  session.date  = document.getElementById("ses-date").value;
+  session.quota = parseInt(document.getElementById("ses-quota").value)||0;
+  if(session.date) document.getElementById("f-date").value = session.date;
+}
+
+// ════════════════════════════════════════════════════════
+//  CANDIDATES
+// ════════════════════════════════════════════════════════
+function showAddCand(){ renderPositions(); openModal("add-cand-modal"); }
+function confirmAddCand(){
+  const name = document.getElementById("ac-name").value.trim();
+  const pos  = document.getElementById("ac-pos").value;
+  const note = document.getElementById("ac-note").value.trim();
+  if(!name){ showToast("กรุณากรอกชื่อผู้สมัคร","warn"); return; }
+  const id = candIdSeq++;
+  candidates.push({id, seq:id, name, position:pos, note, scores:{}, remarks:{}, savedBy:[], savedAt:null});
+  closeModal("add-cand-modal");
+  ["ac-name","ac-note"].forEach(x=>document.getElementById(x).value="");
+  renderCandList();
+  selectCand(id);
+  showToast("เพิ่มผู้สมัครแล้ว","success");
+}
+function uploadCandCSV(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const rows = parseCSV(ev.target.result);
+    rows.forEach(r=>{
+      if(r[0]){
+        const id=candIdSeq++;
+        candidates.push({id,seq:id,name:r[0],position:r[1]||"",note:r[2]||"",scores:{},remarks:{},savedBy:[],savedAt:null});
+      }
+    });
+    renderCandList();
+    showToast(`เพิ่มผู้สมัครจาก CSV ${rows.length} คน`,"success");
+  };
+  reader.readAsText(file,"UTF-8");
+  e.target.value="";
+}
+function downloadCandTemplate(){
+  const csv="ชื่อ-นามสกุล,ตำแหน่งที่สมัคร,หมายเหตุ\nนายสมศักดิ์ ดีใจ,อาจารย์แพทย์,\nนางสาววิภา สุขใส,นักวิชาการ,";
+  downloadFile(csv,"candidates_template.csv","text/csv;charset=utf-8;");
+}
+function renderCandList(){
+  const q = document.getElementById("cand-search").value.toLowerCase();
+  const el = document.getElementById("candidate-list");
+  const list = candidates.filter(c=>c.name.toLowerCase().includes(q));
+  if(!list.length){ el.innerHTML=`<div class="empty-state">ยังไม่มีผู้สมัคร<br/>กด "+ เพิ่ม" หรือ Upload CSV</div>`; }
+  else {
+    el.innerHTML = list.map(c=>{
+      const isDone = isSavedByCurrentMgr(c);
+      const total  = isDone ? getMgrRecord(c.id,currentMgrId)?.total : null;
+      return `<div class="cand-item ${isDone?"done":"undone"} ${currentCandId===c.id?"selected":""}" onclick="selectCand(${c.id})">
+        <div class="cand-num ${isDone?"done":"undone"}">${c.seq}</div>
+        <div class="cand-info">
+          <div class="cand-name">${c.name}</div>
+          <div class="cand-pos">${c.position||"-"}</div>
+        </div>
+        ${isDone ? `<div class="cand-score" style="color:#16a34a">${total}/30</div>` : ""}
+      </div>`;
+    }).join("");
+  }
+  const done = candidates.filter(c=>isSavedByCurrentMgr(c)).length;
+  document.getElementById("stat-total").textContent = `ทั้งหมด ${candidates.length} คน`;
+  document.getElementById("stat-done").textContent  = `ประเมินแล้ว ${done}`;
+}
+function isSavedByCurrentMgr(c){
+  return allRecords.some(r=>r.candId===c.id && r.mgrId===currentMgrId);
+}
+function getMgrRecord(candId,mgrId){
+  return allRecords.find(r=>r.candId===candId && r.mgrId===mgrId);
+}
+function selectCand(id){
+  currentCandId = id;
+  loadCandToForm(id);
+  renderCandList();
+  switchPage("score");
+}
+function loadCandToForm(id){
+  const c = candidates.find(x=>x.id===id); if(!c) return;
+  document.getElementById("f-name").value = c.name;
+  renderPositions();
+  document.getElementById("f-pos").value  = c.position||"";
+  document.getElementById("f-date").value = session.date;
+  document.getElementById("f-iv").value   = mgrDisplay(managers.find(m=>m.id===currentMgrId)||managers[0]);
+  // load existing record if any
+  const rec = getMgrRecord(id,currentMgrId);
+  formScores  = rec ? {...rec.scores}   : Object.fromEntries(CRITERIA.map(c=>[c.key,3]));
+  formRemarks = rec ? {...rec.remarks}  : Object.fromEntries(CRITERIA.map(c=>[c.key,""]));
+  renderCriteria();
+  updateSummary();
+  // reset save button
+  const saved = !!rec;
+  const btn = document.getElementById("btn-save");
+  btn.textContent = saved ? "✅ บันทึกแล้ว (แก้ไข)" : "💾 บันทึกคะแนน";
+  btn.classList.toggle("saved", saved);
+  btn.disabled = false;
+}
+
+// ════════════════════════════════════════════════════════
+//  SCORE FORM
+// ════════════════════════════════════════════════════════
+let formScores  = Object.fromEntries(CRITERIA.map(c=>[c.key,3]));
+let formRemarks = Object.fromEntries(CRITERIA.map(c=>[c.key,""]));
+let formDirty   = false;
+
+function renderCriteria(){
+  const el = document.getElementById("criteria-list");
+  el.innerHTML = CRITERIA.map(c=>`
+    <div class="sc-card" id="scard-${c.key}" style="border-left-color:${SCOLORS[formScores[c.key]]}">
+      <div class="sc-head">
+        <span class="sc-emoji">${c.emoji}</span>
+        <span class="sc-name">(${c.key}) ${c.label}</span>
+        <span class="sc-sub">${c.sub}</span>
+      </div>
+      <div class="sc-btns">
+        ${[1,2,3,4,5].map(v=>`<button class="scbtn ${formScores[c.key]===v?"on":""}" id="sb-${c.key}-${v}"
+          style="${formScores[c.key]===v?`background:${SCOLORS[v]};border-color:${SCOLORS[v]};`:""}
+          onclick="setScore('${c.key}',${v})">${v}</button>`).join("")}
+        <span class="sc-level" id="slv-${c.key}" style="color:${SCOLORS[formScores[c.key]]}">${SLABELS[formScores[c.key]]}</span>
+      </div>
+      <input class="sc-remark" id="rem-${c.key}" value="${formRemarks[c.key]||""}"
+        placeholder="หมายเหตุ / พฤติกรรมที่สังเกตเห็น..."
+        oninput="formRemarks['${c.key}']=this.value;markDirty()"/>
+    </div>`).join("");
+}
+function setScore(key,val){
+  formScores[key]=val;
+  [1,2,3,4,5].forEach(v=>{
+    const b=document.getElementById(`sb-${key}-${v}`);
+    if(b){ if(v===val){b.classList.add("on");b.style.background=SCOLORS[v];b.style.borderColor=SCOLORS[v];b.style.color="#fff";}
+    else{b.classList.remove("on");b.style.background="";b.style.borderColor="#e2e8f0";b.style.color="";} }
+  });
+  document.getElementById(`slv-${key}`).textContent = SLABELS[val];
+  document.getElementById(`slv-${key}`).style.color  = SCOLORS[val];
+  document.getElementById(`scard-${key}`).style.borderLeftColor = SCOLORS[val];
+  markDirty();
+  updateSummary();
+}
+function markDirty(){
+  formDirty = true;
+  const btn = document.getElementById("btn-save");
+  btn.disabled = false;
+  if(btn.classList.contains("saved")){ btn.textContent="💾 บันทึกคะแนน (มีการแก้ไข)"; btn.classList.remove("saved"); }
+}
+function onFormChange(){ markDirty(); }
+function updateSummary(){
+  const total = Object.values(formScores).reduce((a,b)=>a+b,0);
+  const pct   = Math.round(total/30*100);
+  const res   = getRes(pct);
+  document.getElementById("sum-num").textContent = total;
+  document.getElementById("sum-num").style.color  = res.color;
+  document.getElementById("sum-res").textContent  = `${pct}% ${res.icon} ${res.label}`;
+  document.getElementById("sum-res").style.color   = res.color;
+  const strip = document.getElementById("sum-strip");
+  strip.style.background = res.bg;
+  strip.style.borderColor = res.border;
+  drawRadar("radar-svg",formScores,150);
+}
+
+// ════════════════════════════════════════════════════════
+//  SAVE RECORD
+// ════════════════════════════════════════════════════════
+async function saveRecord(){
+  const name = document.getElementById("f-name").value.trim();
+  if(!name){ showToast("กรุณากรอกชื่อผู้สมัคร","warn"); return; }
+  if(!currentCandId){
+    // auto-create candidate
+    const id = candIdSeq++;
+    const pos = document.getElementById("f-pos").value;
+    candidates.push({id,seq:id,name,position:pos,note:"",scores:{},remarks:{},savedBy:[],savedAt:null});
+    currentCandId = id;
+    renderCandList();
+  }
+  const cand  = candidates.find(c=>c.id===currentCandId);
+  const total = Object.values(formScores).reduce((a,b)=>a+b,0);
+  const pct   = Math.round(total/30*100);
+  const res   = getRes(pct);
+  const mgr   = managers.find(m=>m.id===currentMgrId);
+  const record = {
+    candId:currentCandId, mgrId:currentMgrId,
+    candidateName:name,
+    position:document.getElementById("f-pos").value,
+    interviewDate:document.getElementById("f-date").value,
+    interviewer: mgr ? mgrDisplay(mgr) : "",
+    scores:{...formScores}, remarks:{...formRemarks},
+    total,pct,result:res.label,
+    savedAt: new Date().toISOString(),
+  };
+  // upsert
+  const idx = allRecords.findIndex(r=>r.candId===currentCandId && r.mgrId===currentMgrId);
+  if(idx>=0) allRecords[idx]=record; else allRecords.push(record);
+  // update candidate
+  if(cand){ cand.name=name; cand.position=record.position; }
+  formDirty = false;
+  // send to sheet
+  if(sheetReady && sheetUrl){
+    try{ await fetch(sheetUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(record)}); }
+    catch(e){ console.warn(e); }
+  }
+  const btn = document.getElementById("btn-save");
+  btn.textContent = "✅ บันทึกแล้ว (แก้ไข)";
+  btn.classList.add("saved");
+  btn.disabled = false;
+  renderCandList();
+  showToast(`บันทึกคะแนนของ "${name}" เรียบร้อยแล้ว`,"success");
+}
+
+// ════════════════════════════════════════════════════════
+//  RADAR
+// ════════════════════════════════════════════════════════
+function drawRadar(svgId,sc,size){
+  const svg=document.getElementById(svgId); if(!svg) return;
+  const sz=size||150,cx=sz/2,cy=sz/2,r=sz*0.36,n=CRITERIA.length;
+  const ang=i=>Math.PI*2*i/n-Math.PI/2;
+  const pt=(i,rad)=>({x:cx+rad*Math.cos(ang(i)),y:cy+rad*Math.sin(ang(i))});
+  let h="";
+  [1,2,3,4,5].forEach(lv=>CRITERIA.forEach((_,i)=>{
+    const p1=pt(i,lv/5*r),p2=pt((i+1)%n,lv/5*r);
+    h+=`<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/>`;
+  }));
+  CRITERIA.forEach((_,i)=>{const p=pt(i,r);h+=`<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="#cbd5e1" stroke-width="1"/>`;});
+  const dpts=CRITERIA.map((c,i)=>pt(i,(sc[c.key]||0)/5*r));
+  h+=`<path d="${dpts.map((p,i)=>`${i===0?"M":"L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ")}Z" fill="#0ea5e925" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>`;
+  dpts.forEach(p=>{h+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#0ea5e9"/>`;});
+  CRITERIA.forEach((c,i)=>{const p=pt(i,r+13);h+=`<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#475569" font-weight="700">${c.key}</text>`;});
+  svg.innerHTML=h;
+}
+
+// ════════════════════════════════════════════════════════
+//  SUMMARY PAGE
+// ════════════════════════════════════════════════════════
+function renderSummary(){
+  const q   = (document.getElementById("sum-search")?.value||"").toLowerCase();
+  const ivs = [...new Set(allRecords.map(r=>r.mgrId))];
+  // filter buttons
+  const fr = document.getElementById("sum-filter-row");
+  fr.innerHTML=`
+    <span style="font-size:11px;font-weight:700;color:var(--gray-600)">กรรมการ:</span>
+    ${["all",...ivs].map(id=>`<button class="fbtn ${sumFilterIV==id?"on":""}" onclick="setSumFilter('${id}')">${id==="all"?"ทั้งหมด":mgrDisplay(managers.find(m=>m.id==id)||{fname:id,lname:"",title:""})}</button>`).join("")}
+    <span style="font-size:11px;font-weight:700;color:var(--gray-600);margin-left:8px">เรียงโดย:</span>
+    ${["seq","total",...CRITERIA.map(c=>c.key)].map(col=>`
+      <button class="fbtn ${sumSort.col===col?"on":""}" onclick="setSumSort('${col}')">
+        ${col==="seq"?"ลำดับสัมภาษณ์":col==="total"?"คะแนนรวม":col}
+        ${sumSort.col===col?(sumSort.dir>0?"↑":"↓"):""}
+      </button>`).join("")}`;
+  // build records: group by candidate, show avg across mgrs (or filter by one)
+  let recs = candidates.map(c=>{
+    const recsForCand = sumFilterIV==="all"
+      ? allRecords.filter(r=>r.candId===c.id)
+      : allRecords.filter(r=>r.candId===c.id && r.mgrId==sumFilterIV);
+    if(!recsForCand.length) return null;
+    const avgScore = k => recsForCand.length ? +(recsForCand.reduce((s,r)=>s+(r.scores?.[k]||0),0)/recsForCand.length).toFixed(1) : 0;
+    const avgTotal = +(recsForCand.reduce((s,r)=>s+r.total,0)/recsForCand.length).toFixed(1);
+    const avgPct   = Math.round(recsForCand.reduce((s,r)=>s+r.pct,0)/recsForCand.length);
+    return {cand:c, scores:Object.fromEntries(CRITERIA.map(cr=>[cr.key,avgScore(cr.key)])), total:avgTotal, pct:avgPct, count:recsForCand.length};
+  }).filter(Boolean).filter(r=>r.cand.name.toLowerCase().includes(q));
+  // sort
+  recs.sort((a,b)=>{
+    let va = sumSort.col==="seq"?a.cand.seq : sumSort.col==="total"?a.total : a.scores[sumSort.col]||0;
+    let vb = sumSort.col==="seq"?b.cand.seq : sumSort.col==="total"?b.total : b.scores[sumSort.col]||0;
+    return (va-vb)*sumSort.dir;
+  });
+  // summary table
+  const tbl = document.getElementById("sum-table");
+  tbl.innerHTML=`<thead><tr>
+    <th onclick="setSumSort('seq')">#${sumSort.col==="seq"?sumSort.dir>0?"↑":"↓":""}</th>
+    <th>ชื่อผู้สมัคร</th><th>ตำแหน่ง</th>
+    ${CRITERIA.map(c=>`<th onclick="setSumSort('${c.key}')" style="text-align:center">${c.key}${sumSort.col===c.key?sumSort.dir>0?"↑":"↓":""}</th>`).join("")}
+    <th onclick="setSumSort('total')" style="text-align:center">รวม${sumSort.col==="total"?sumSort.dir>0?"↑":"↓":""}</th>
+    <th style="text-align:center">%</th><th>ผล</th><th>กรรมการ</th>
+    </tr></thead>
+    <tbody>${recs.length===0?`<tr><td colspan="13" class="empty-state">ไม่พบข้อมูล</td></tr>`:
+    recs.map((r,i)=>{
+      const res=getRes(r.pct);
+      return `<tr style="cursor:pointer" onclick="selectCand(${r.cand.id})">
+        <td style="color:var(--gray-400)">${r.cand.seq}</td>
+        <td class="fw7">${r.cand.name}</td><td>${r.cand.position||"-"}</td>
+        ${CRITERIA.map(c=>`<td style="text-align:center;font-weight:700;color:${SCOLORS[Math.round(r.scores[c.key])]||"#94a3b8"}">${r.scores[c.key]}</td>`).join("")}
+        <td style="text-align:center;font-weight:700">${r.total}/30</td>
+        <td style="text-align:center">${r.pct}%</td>
+        <td><span class="badge" style="background:${res.bg};color:${res.color}">${res.icon} ${res.label}</span></td>
+        <td style="font-size:11px;color:var(--gray-400)">${r.count} ท่าน</td>
+      </tr>`;
+    }).join("")}</tbody>`;
+  // avg per mgr
+  const ivList = [...new Set(allRecords.map(r=>r.mgrId))];
+  const avgTbl = document.getElementById("avg-table");
+  if(!ivList.length){avgTbl.innerHTML=`<tr><td class="empty-state" style="padding:20px">ยังไม่มีข้อมูล</td></tr>`;return;}
+  const avgK=(rows,k)=>rows.length?+(rows.reduce((s,r)=>s+(r.scores?.[k]||0),0)/rows.length).toFixed(1):"-";
+  avgTbl.innerHTML=`<thead><tr><th>กรรมการ</th><th>จำนวน</th>${CRITERIA.map(c=>`<th style="text-align:center">${c.key}</th>`).join("")}<th style="text-align:center">เฉลี่ย %</th></tr></thead>
+    <tbody>${ivList.map(id=>{
+      const rows=allRecords.filter(r=>r.mgrId==id);
+      const ap=rows.length?Math.round(rows.reduce((s,r)=>s+r.pct,0)/rows.length):0;
+      const res=getRes(ap);
+      const mgr=managers.find(m=>m.id==id);
+      return `<tr>
+        <td class="fw7">${mgr?mgrDisplay(mgr):id}</td>
+        <td style="text-align:center">${rows.length}</td>
+        ${CRITERIA.map(c=>`<td style="text-align:center;font-weight:700;color:${SCOLORS[Math.round(avgK(rows,c.key))]||"#94a3b8"}">${avgK(rows,c.key)}</td>`).join("")}
+        <td style="text-align:center"><span class="badge" style="background:${res.bg};color:${res.color}">${ap}%</span></td>
+      </tr>`;
+    }).join("")}</tbody>`;
+}
+function setSumFilter(v){ sumFilterIV=v; renderSummary(); }
+function setSumSort(col){ if(sumSort.col===col) sumSort.dir*=-1; else{sumSort.col=col;sumSort.dir=-1;} renderSummary(); }
+
+// ════════════════════════════════════════════════════════
+//  ACCEPTANCE PAGE
+// ════════════════════════════════════════════════════════
+function renderAccept(){
+  const mainN = parseInt(document.getElementById("acc-main-n")?.value)||3;
+  const resN  = parseInt(document.getElementById("acc-res-n")?.value)||3;
+  // rank by avg total desc
+  const ranked = candidates.map(c=>{
+    const recs = allRecords.filter(r=>r.candId===c.id);
+    if(!recs.length) return null;
+    const avg = +(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+    const pct = Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+    return {cand:c, avg, pct};
+  }).filter(Boolean).sort((a,b)=>b.avg-a.avg);
+  const el = document.getElementById("accept-list");
+  if(!ranked.length){el.innerHTML=`<div class="empty-state">ยังไม่มีข้อมูลการประเมิน</div>`;return;}
+  let html="";
+  ranked.forEach((r,i)=>{
+    const isMain    = i<mainN;
+    const isReserve = i>=mainN && i<mainN+resN;
+    if(!isMain&&!isReserve) return;
+    const res = getRes(r.pct);
+    html+=`<div class="accept-row">
+      <div class="accept-rank ${isMain?"accept-main":"accept-reserve"}">${i+1}</div>
+      <div style="font-size:10px;color:var(--gray-400);margin-right:4px">${isMain?"หลัก":"สำรอง"}</div>
+      <div class="accept-name">${r.cand.name}</div>
+      <div style="font-size:11px;color:var(--gray-400)">${r.cand.position||""}</div>
+      <div class="accept-score">${r.avg}/30</div>
+      <span class="badge" style="background:${res.bg};color:${res.color}">${r.pct}% ${res.icon}</span>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════
+//  PDF EXPORT — ใช้ canvas วาดข้อความภาษาไทย
+// ════════════════════════════════════════════════════════
+function openPrintModal(){ openModal("print-modal"); }
+
+async function doPDF(mode){
+  closeModal("print-modal");
+  showToast("กำลังสร้าง PDF...","");
+  await new Promise(r=>setTimeout(r,200));
+
+  const {jsPDF} = window.jspdf;
+
+  // helper: draw Thai text via canvas → image on PDF
+  // We render each cell text on a hidden canvas using the loaded Thai font
+  const canvasEl = document.getElementById("pdf-canvas");
+  const ctx = canvasEl.getContext("2d");
+
+  function thaiImg(text, fontSize, color, maxW, bold){
+    const scale = 3; // retina
+    const fw = (maxW||200)*scale;
+    const fh = (fontSize+6)*scale;
+    canvasEl.width  = fw;
+    canvasEl.height = fh;
+    ctx.clearRect(0,0,fw,fh);
+    ctx.fillStyle   = color||"#1e293b";
+    ctx.font        = `${bold?"700":"400"} ${fontSize*scale}px Sarabun, sans-serif`;
+    ctx.textBaseline= "middle";
+    ctx.fillText(text, 0, fh/2, fw);
+    return canvasEl.toDataURL("image/png");
+  }
+
+  // shorthand: place Thai text as image on PDF
+  function pdfThai(doc, text, x, y, opts){
+    if(!text) return;
+    const fs   = opts?.size||10;
+    const col  = opts?.color||"#1e293b";
+    const maxW = opts?.maxW||80;
+    const bold = opts?.bold||false;
+    const img  = thaiImg(String(text), fs, col, maxW, bold);
+    const h    = fs+2;
+    const w    = maxW;
+    doc.addImage(img,"PNG",x,y,w,h);
+  }
+
+  if(mode==="summary")     await pdfSummary(jsPDF, pdfThai);
+  if(mode==="individual")  await pdfIndividual(jsPDF, pdfThai, false);
+  if(mode==="current")     await pdfIndividual(jsPDF, pdfThai, true);
+  if(mode==="accept")      await pdfAccept(jsPDF, pdfThai);
+}
+
+// ── PDF: Summary Table ──────────────────────────────────
+async function pdfSummary(jsPDF, pdfThai){
+  const doc = new jsPDF({orientation:"landscape",unit:"mm",format:"a4"});
+  const pw=doc.internal.pageSize.getWidth(), ph=doc.internal.pageSize.getHeight();
+
+  // header
+  doc.setFillColor(3,105,161);
+  doc.rect(0,0,pw,13,"F");
+  let y=18;
+
+  // title as Thai image
+  pdfThai(doc,"MED UP Interview — สรุปผลการสัมภาษณ์",8,2,{size:11,color:"#ffffff",maxW:180,bold:true});
+  pdfThai(doc,`วันที่: ${fmtDate(session.date)}   ตำแหน่ง: ${session.positions.join(", ")}   จำนวนรับ: ${session.quota} คน`,8,8,{size:8,color:"#bae6fd",maxW:200});
+
+  // table header
+  const cols = ["#","ชื่อผู้สมัคร","ตำแหน่ง",...CRITERIA.map(c=>c.key),"รวม","%","ผลการพิจารณา"];
+  const colW = [8,45,28,...CRITERIA.map(()=>10),14,10,34];
+  let x=8;
+  doc.setFillColor(12,74,110);
+  doc.rect(8,y-4,pw-16,8,"F");
+  cols.forEach((col,i)=>{
+    pdfThai(doc,col,x,y-3,{size:8,color:"#ffffff",maxW:colW[i],bold:true});
+    x+=colW[i];
+  });
+  y+=6;
+
+  // rows
+  const ranked = candidates.map(c=>{
+    const recs = allRecords.filter(r=>r.candId===c.id);
+    if(!recs.length) return null;
+    const avgScore = k=>+(recs.reduce((s,r)=>s+(r.scores?.[k]||0),0)/recs.length).toFixed(1);
+    const avg = +(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+    const pct = Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+    return {cand:c, scores:Object.fromEntries(CRITERIA.map(cr=>[cr.key,avgScore(cr.key)])), total:avg, pct};
+  }).filter(Boolean).sort((a,b)=>a.cand.seq-b.cand.seq);
+
+  ranked.forEach((r,i)=>{
+    if(y>ph-30){ doc.addPage(); y=15; }
+    const res=getRes(r.pct);
+    const bg = i%2===1?"#f8fafc":"#ffffff";
+    const [br,bg2,bb]=bg.replace("#","").match(/../g).map(x=>parseInt(x,16));
+    doc.setFillColor(br,bg2,bb);
+    doc.rect(8,y-3,pw-16,8,"F");
+    let xx=8;
+    const vals=[i+1, r.cand.name, r.cand.position||"-",
+      ...CRITERIA.map(c=>r.scores[c.key]),
+      `${r.total}/30`, `${r.pct}%`, `${res.icon} ${res.label}`];
+    const colors=["#94a3b8","#1e293b","#475569",
+      ...CRITERIA.map(c=>SCOLORS[Math.round(r.scores[c.key])]||"#94a3b8"),
+      "#0369a1","#475569",res.color];
+    vals.forEach((v,j)=>{
+      pdfThai(doc,String(v),xx,y-3,{size:j===1?9:8,color:colors[j],maxW:colW[j],bold:j===1||j===vals.length-1});
+      xx+=colW[j];
+    });
+    y+=8;
+  });
+
+  // signature block
+  y = Math.max(y+10, ph-40);
+  pdfThai(doc,"ลงชื่อกรรมการ",8,y,{size:9,color:"#1e293b",bold:true,maxW:60});
+  y+=8;
+  managers.forEach((m,i)=>{
+    const sx = 8+(i%4)*68;
+    if(i>0&&i%4===0) y+=22;
+    doc.setDrawColor(150,160,180);
+    doc.line(sx,y+12,sx+58,y+12);
+    pdfThai(doc,`(${mgrDisplay(m)})`,sx,y+13,{size:7,color:"#475569",maxW:58});
+    pdfThai(doc,m.title,sx,y+18,{size:7,color:"#94a3b8",maxW:58});
+  });
+
+  // footer
+  doc.setFontSize(7);
+  doc.setTextColor(148,163,184);
+  doc.text("เกณฑ์: >=80% แนะนำให้รับ | 60-79% พิจารณาเพิ่มเติม | <60% ไม่แนะนำให้รับ",8,ph-3);
+
+  doc.save(`MedUP_Summary_${(session.date||"").replace(/-/g,"")}.pdf`);
+  showToast("สร้าง PDF เสร็จแล้ว","success");
+}
+
+// ── PDF: Individual Sheets ──────────────────────────────
+async function pdfIndividual(jsPDF, pdfThai, currentOnly){
+  const doc = new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  const pw=doc.internal.pageSize.getWidth(), ph=doc.internal.pageSize.getHeight();
+  const list = currentOnly
+    ? candidates.filter(c=>c.id===currentCandId)
+    : candidates.filter(c=>allRecords.some(r=>r.candId===c.id));
+
+  list.forEach((cand,ci)=>{
+    if(ci>0) doc.addPage();
+    const recs = allRecords.filter(r=>r.candId===cand.id);
+    // use current mgr's record or first
+    const rec = recs.find(r=>r.mgrId===currentMgrId)||recs[0]||null;
+    const sc  = rec?.scores||formScores;
+    const rm  = rec?.remarks||formRemarks;
+    const total = Object.values(sc).reduce((a,b)=>a+b,0);
+    const pct   = Math.round(total/30*100);
+    const res   = getRes(pct);
+
+    // header
+    doc.setFillColor(3,105,161);
+    doc.rect(0,0,pw,14,"F");
+    pdfThai(doc,"MED UP Interview Assessment",8,1,{size:11,color:"#ffffff",bold:true,maxW:140});
+    pdfThai(doc,`ใบประเมิน ${ci+1}/${list.length}`,pw-50,1,{size:9,color:"#bae6fd",maxW:45});
+
+    let y=18;
+    // candidate info
+    doc.setFillColor(248,250,252);
+    doc.setDrawColor(226,232,240);
+    doc.roundedRect(8,y,pw-16,20,2,2,"FD");
+    pdfThai(doc,cand.name,12,y+2,{size:13,color:"#1e293b",bold:true,maxW:120});
+    pdfThai(doc,`ตำแหน่ง: ${cand.position||"-"}   วันที่: ${fmtDate(rec?.interviewDate||session.date)}`,12,y+10,{size:9,color:"#475569",maxW:130});
+    pdfThai(doc,`กรรมการ: ${rec?.interviewer||"-"}`,12,y+16,{size:9,color:"#475569",maxW:130});
+    y+=25;
+
+    // score rows
+    const colW=[8,55,12,12,12,12,12,14,28,36];
+    const head=["#","ค่านิยม / วัฒนธรรม","1","2","3","4","5","คะแนน","ระดับ","หมายเหตุ"];
+    doc.setFillColor(3,105,161);
+    doc.rect(8,y-4,pw-16,8,"F");
+    let hx=8;
+    head.forEach((h,i)=>{pdfThai(doc,h,hx,y-3,{size:7.5,color:"#fff",maxW:colW[i],bold:true});hx+=colW[i];});
+    y+=5;
+
+    CRITERIA.forEach((c,ci2)=>{
+      const sv=sc[c.key]||3;
+      const bg=ci2%2===1?"#f8fafc":"#ffffff";
+      const [r2,g2,b2]=bg.replace("#","").match(/../g).map(x=>parseInt(x,16));
+      doc.setFillColor(r2,g2,b2);
+      doc.rect(8,y-3,pw-16,10,"F");
+      let xx=8;
+      pdfThai(doc,String(ci2+1),xx,y-2,{size:8,color:"#94a3b8",maxW:8});xx+=8;
+      pdfThai(doc,`(${c.key}) ${c.label}`,xx,y-2,{size:8,color:"#1e293b",maxW:55,bold:true});xx+=55;
+      [1,2,3,4,5].forEach(v=>{
+        pdfThai(doc,sv===v?"●":"○",xx,y-2,{size:10,color:sv===v?SCOLORS[v]:"#cbd5e1",maxW:12});xx+=12;
+      });
+      pdfThai(doc,String(sv),xx,y-2,{size:11,color:SCOLORS[sv],maxW:14,bold:true});xx+=14;
+      pdfThai(doc,SLABELS[sv],xx,y-2,{size:8,color:SCOLORS[sv],maxW:28});xx+=28;
+      pdfThai(doc,rm[c.key]||"",xx,y-2,{size:7.5,color:"#475569",maxW:36});
+      y+=10;
+    });
+
+    // total row
+    doc.setFillColor(240,249,255);
+    doc.rect(8,y-3,pw-16,10,"F");
+    pdfThai(doc,"คะแนนรวม",8,y-2,{size:9,color:"#1e293b",bold:true,maxW:55});
+    pdfThai(doc,`${total}/30`,63,y-2,{size:13,color:res.color,bold:true,maxW:20});
+    pdfThai(doc,`${pct}% ${res.icon} ${res.label}`,85,y-2,{size:10,color:res.color,bold:true,maxW:60});
+    y+=14;
+
+    // criteria legend
+    doc.setDrawColor(226,232,240);
+    doc.line(8,y,pw-8,y); y+=4;
+    pdfThai(doc,"เกณฑ์แปลผล: 1=ต้องพัฒนามาก  2=ต้องพัฒนา  3=ผ่านเกณฑ์  4=ดี  5=ดีเยี่ยม",8,y,{size:7,color:"#94a3b8",maxW:180});
+    y+=6;
+    pdfThai(doc,"เกณฑ์: >=80% แนะนำให้รับ | 60-79% พิจารณาเพิ่มเติม | <60% ไม่แนะนำให้รับ",8,y,{size:7,color:"#94a3b8",maxW:180});
+
+    // signature — all managers
+    y = ph-38;
+    pdfThai(doc,"ลงชื่อกรรมการ",8,y,{size:9,color:"#1e293b",bold:true,maxW:60}); y+=7;
+    managers.forEach((m,mi)=>{
+      const sx=8+(mi%4)*50;
+      if(mi>0&&mi%4===0) y+=20;
+      doc.setDrawColor(180,190,200);
+      doc.line(sx,y+10,sx+44,y+10);
+      pdfThai(doc,`(${mgrDisplay(m)})`,sx,y+11,{size:6.5,color:"#475569",maxW:44});
+      pdfThai(doc,m.title,sx,y+16,{size:6.5,color:"#94a3b8",maxW:44});
+    });
+
+    // page footer
+    doc.setFontSize(7); doc.setTextColor(148,163,184);
+    doc.text(`หน้า ${ci+1}/${list.length}`,pw-8,ph-3,{align:"right"});
+  });
+  doc.save(`MedUP_Individual_${(session.date||"").replace(/-/g,"")}.pdf`);
+  showToast("สร้าง PDF เสร็จแล้ว","success");
+}
+
+// ── PDF: Acceptance List ────────────────────────────────
+async function pdfAccept(jsPDF, pdfThai){
+  const doc=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  const pw=doc.internal.pageSize.getWidth(),ph=doc.internal.pageSize.getHeight();
+  const mainN=parseInt(document.getElementById("acc-main-n")?.value)||3;
+  const resN =parseInt(document.getElementById("acc-res-n")?.value)||3;
+
+  doc.setFillColor(3,105,161);
+  doc.rect(0,0,pw,14,"F");
+  pdfThai(doc,"สรุปการรับเข้าทำงาน — MED UP",8,1,{size:12,color:"#fff",bold:true,maxW:150});
+  pdfThai(doc,`วันที่: ${fmtDate(session.date)}   ตำแหน่ง: ${session.positions.join(", ")}`,8,9,{size:8,color:"#bae6fd",maxW:150});
+  let y=20;
+
+  const ranked=candidates.map(c=>{
+    const recs=allRecords.filter(r=>r.candId===c.id);
+    if(!recs.length) return null;
+    const avg=+(recs.reduce((s,r)=>s+r.total,0)/recs.length).toFixed(1);
+    const pct=Math.round(recs.reduce((s,r)=>s+r.pct,0)/recs.length);
+    return {cand:c,avg,pct};
+  }).filter(Boolean).sort((a,b)=>b.avg-a.avg);
+
+  pdfThai(doc,"ลำดับหลัก",8,y,{size:10,color:"#16a34a",bold:true,maxW:50}); y+=8;
+  ranked.slice(0,mainN).forEach((r,i)=>{
+    const res=getRes(r.pct);
+    doc.setFillColor(240,253,244);
+    doc.roundedRect(8,y-2,pw-16,12,2,2,"F");
+    pdfThai(doc,String(i+1),10,y-1,{size:11,color:"#16a34a",bold:true,maxW:10});
+    pdfThai(doc,r.cand.name,22,y-1,{size:11,color:"#1e293b",bold:true,maxW:90});
+    pdfThai(doc,r.cand.position||"",114,y-1,{size:9,color:"#475569",maxW:50});
+    pdfThai(doc,`${r.avg}/30  (${r.pct}%) ${res.icon}`,pw-60,y-1,{size:9,color:res.color,bold:true,maxW:52});
+    y+=14;
+  });
+
+  y+=4;
+  pdfThai(doc,"ลำดับสำรอง",8,y,{size:10,color:"#d97706",bold:true,maxW:60}); y+=8;
+  ranked.slice(mainN,mainN+resN).forEach((r,i)=>{
+    const res=getRes(r.pct);
+    doc.setFillColor(254,252,232);
+    doc.roundedRect(8,y-2,pw-16,12,2,2,"F");
+    pdfThai(doc,`ส.${i+1}`,10,y-1,{size:11,color:"#d97706",bold:true,maxW:14});
+    pdfThai(doc,r.cand.name,26,y-1,{size:11,color:"#1e293b",bold:true,maxW:86});
+    pdfThai(doc,r.cand.position||"",114,y-1,{size:9,color:"#475569",maxW:50});
+    pdfThai(doc,`${r.avg}/30  (${r.pct}%) ${res.icon}`,pw-60,y-1,{size:9,color:res.color,bold:true,maxW:52});
+    y+=14;
+  });
+
+  // signature
+  y=Math.max(y+12,ph-48);
+  pdfThai(doc,"ลงชื่อคณะกรรมการ",8,y,{size:9,color:"#1e293b",bold:true,maxW:80}); y+=8;
+  managers.forEach((m,mi)=>{
+    const sx=8+(mi%4)*50;
+    if(mi>0&&mi%4===0) y+=22;
+    doc.setDrawColor(180,190,200);
+    doc.line(sx,y+10,sx+44,y+10);
+    pdfThai(doc,`(${mgrDisplay(m)})`,sx,y+11,{size:6.5,color:"#475569",maxW:44});
+    pdfThai(doc,m.title,sx,y+16,{size:6.5,color:"#94a3b8",maxW:44});
+  });
+  doc.setFontSize(7);doc.setTextColor(148,163,184);
+  doc.text("เอกสารนี้จัดทำโดย MED UP Interview System — คณะแพทยศาสตร์ ม.พะเยา",8,ph-3);
+  doc.save(`MedUP_Acceptance_${(session.date||"").replace(/-/g,"")}.pdf`);
+  showToast("สร้าง PDF เสร็จแล้ว","success");
+}
+
+// ════════════════════════════════════════════════════════
+//  GOOGLE SHEET
+// ════════════════════════════════════════════════════════
+function connectSheet(){
+  const u=document.getElementById("sheet-url-inp").value.trim();
+  if(!u.startsWith("https://")){ showToast("URL ต้องขึ้นต้น https://","warn"); return; }
+  sheetUrl=u; sheetReady=true;
+  document.getElementById("sheet-banner").style.display="none";
+  document.getElementById("sheet-ok").style.display="flex";
+  loadFromSheet();
+}
+function disconnectSheet(){
+  sheetReady=false; sheetUrl="";
+  document.getElementById("sheet-banner").style.display="flex";
+  document.getElementById("sheet-ok").style.display="none";
+}
+async function loadFromSheet(){
+  if(!sheetReady) return;
+  try{
+    const res=await fetch(sheetUrl,{mode:"cors"});
+    const data=await res.json();
+    if(Array.isArray(data)){
+      data.forEach(r=>{
+        const ex=allRecords.findIndex(x=>x.candId===r.candId&&x.mgrId===r.mgrId);
+        if(ex>=0) allRecords[ex]=r; else allRecords.push(r);
+      });
+      renderCandList(); renderSummary();
+      showToast("โหลดข้อมูลจาก Sheets แล้ว","success");
+    }
+  }catch(e){ console.error(e); showToast("โหลดข้อมูลไม่สำเร็จ","warn"); }
+}
+
+// ════════════════════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════════════════════
+function switchPage(p){
+  document.querySelectorAll(".page").forEach(e=>e.classList.remove("active"));
+  document.getElementById("page-"+p).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("nav-"+p).classList.add("active");
+  if(p==="summary") renderSummary();
+  if(p==="accept")  renderAccept();
+  if(p==="mgr")     renderMgrList();
+}
+
+// ════════════════════════════════════════════════════════
+//  MODAL / TOAST / CONFIRM
+// ════════════════════════════════════════════════════════
+function openModal(id){ document.getElementById(id).classList.add("open"); }
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+document.querySelectorAll(".modal-bg").forEach(el=>{
+  el.addEventListener("click",function(e){ if(e.target===this) this.classList.remove("open"); });
+});
+function showToast(msg, type){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.className="";
+  if(type==="success") t.classList.add("success");
+  else if(type==="warn") t.classList.add("warn");
+  t.classList.add("show");
+  clearTimeout(t._to);
+  t._to=setTimeout(()=>t.classList.remove("show"),3000);
+}
+function showConfirm(msg, cb){
+  document.getElementById("confirm-msg").textContent=msg;
+  confirmCb=cb;
+  document.getElementById("confirm-ok-btn").onclick=()=>{ closeModal("confirm-modal"); if(confirmCb) confirmCb(); };
+  openModal("confirm-modal");
+}
+
+// ════════════════════════════════════════════════════════
+//  APPS SCRIPT CODE
+// ════════════════════════════════════════════════════════
+const GS_CODE=`var SHEET_ID = 'YOUR_SHEET_ID';
+function doPost(e) {
+  try {
+    var ss=SpreadsheetApp.openById(SHEET_ID);
+    var data=JSON.parse(e.postData.contents);
+    var mgrName=(data.interviewer||'Unknown').replace(/[\\/:\\?*[\\]]/g,'_');
+    var ivSheet=ss.getSheetByName(mgrName);
+    if(!ivSheet){
+      ivSheet=ss.insertSheet(mgrName);
+      var h1=['Date','Candidate','Position','M','E','D','U','P','C','Total','%','Result',
+              'NoteM','NoteE','NoteD','NoteU','NoteP','NoteC','candId','mgrId'];
+      ivSheet.appendRow(h1);
+      ivSheet.getRange(1,1,1,h1.length).setFontWeight('bold').setBackground('#0369a1').setFontColor('#fff');
+    }
+    var ex=ivSheet.getDataRange().getValues();
+    var ri=-1;
+    for(var i=1;i<ex.length;i++){if(ex[i][18]==data.candId&&ex[i][19]==data.mgrId){ri=i+1;break;}}
+    var row=[data.interviewDate,data.candidateName,data.position,
+      data.scores.M,data.scores.E,data.scores.D,data.scores.U,data.scores.P,data.scores.C,
+      data.total,data.pct+'%',data.result,
+      (data.remarks&&data.remarks.M)||'',(data.remarks&&data.remarks.E)||'',
+      (data.remarks&&data.remarks.D)||'',(data.remarks&&data.remarks.U)||'',
+      (data.remarks&&data.remarks.P)||'',(data.remarks&&data.remarks.C)||'',
+      data.candId,data.mgrId];
+    if(ri>0) ivSheet.getRange(ri,1,1,row.length).setValues([row]);
+    else ivSheet.appendRow(row);
+    var sumSheet=ss.getSheetByName('Summary');
+    if(!sumSheet){
+      sumSheet=ss.insertSheet('Summary');ss.setActiveSheet(sumSheet);ss.moveActiveSheet(1);
+      sumSheet.appendRow(['Date','Candidate','Position','Interviewer','M','E','D','U','P','C','Total','%','Result','candId','mgrId']);
+      sumSheet.getRange(1,1,1,15).setFontWeight('bold').setBackground('#0c4a6e').setFontColor('#fff');
+    }
+    var s2=sumSheet.getDataRange().getValues();
+    var si=-1;
+    for(var j=1;j<s2.length;j++){if(s2[j][13]==data.candId&&s2[j][14]==data.mgrId){si=j+1;break;}}
+    var srow=[data.interviewDate,data.candidateName,data.position,data.interviewer,
+      data.scores.M,data.scores.E,data.scores.D,data.scores.U,data.scores.P,data.scores.C,
+      data.total,data.pct+'%',data.result,data.candId,data.mgrId];
+    if(si>0) sumSheet.getRange(si,1,1,srow.length).setValues([srow]);
+    else sumSheet.appendRow(srow);
+    return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({status:'error',message:err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+function doGet(e) {
+  try {
+    var ss=SpreadsheetApp.openById(SHEET_ID);
+    var sheet=ss.getSheetByName('Summary');
+    if(!sheet||sheet.getLastRow()<2)
+      return ContentService.createTextOutput(JSON.stringify([])).setMimeType(ContentService.MimeType.JSON);
+    var rows=sheet.getDataRange().getValues();
+    var headers=rows[0];
+    var records=rows.slice(1).map(function(r){
+      var o={};headers.forEach(function(h,i){o[h]=r[i];});
+      return {candId:o.candId,mgrId:o.mgrId,interviewDate:String(o.Date||''),
+        candidateName:String(o.Candidate||''),position:String(o.Position||''),
+        interviewer:String(o.Interviewer||''),
+        scores:{M:+o.M||0,E:+o.E||0,D:+o.D||0,U:+o.U||0,P:+o.P||0,C:+o.C||0},
+        total:+o.Total||0,pct:parseInt(o['%'])||0,result:String(o.Result||'')};
+    });
+    return ContentService.createTextOutput(JSON.stringify(records)).setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({error:err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+function displayGSCode(){ document.getElementById("script-code-display").textContent=GS_CODE; }
+function copyGS(){
+  navigator.clipboard.writeText(GS_CODE);
+  const b=document.getElementById("btn-copy-gs");
+  b.textContent="✅ Copied!";
+  setTimeout(()=>b.textContent="📋 Copy โค้ด",2000);
+}
+
+// ════════════════════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════════════════════
+function downloadFile(content, filename, mimeType){
+  const blob=new Blob(["\uFEFF"+content],{type:mimeType});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+</script>
+</body>
+</html>
